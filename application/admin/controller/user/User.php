@@ -64,14 +64,12 @@ class User extends Backend
                 if($v['is_engineer']==1){
                     $user_type .= "工程师"." ";
                     $coin .= "金币:".$v['coin']." ";
-                }
-                if($v['is_hr']==1){
+                }elseif($v['is_hr']==1){
                     $user_type .= "hr"." ";
-                    $coin .= "hr猎币:".$v['hr_coin']." ";
-                }
-                if($v['is_agent']==1){
+                    $coin .= "金币:".$v['hr_coin']." ";
+                }elseif($v['is_agent']==1){
                     $user_type .= "经纪人"." ";
-                    $coin .= "经纪人猎币:".$v['agent_coin']." ";
+                    $coin .= "猎币:".$v['agent_coin']." ";
                 }
                 if(empty($user_type)){
                     $user_type = "无";
@@ -127,16 +125,53 @@ class User extends Backend
         return $this->view->fetch();
     }
 
-    /**
-     * 编辑
-     */
-    public function edit($ids = NULL)
-    {
+
+
+    public function edit($ids = NULL){
         $row = $this->model->get($ids);
         if (!$row)
             $this->error(__('No Results were found'));
-        $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), $row['group_id'], ['class' => 'form-control selectpicker']));
-        return parent::edit($ids);
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds))
+        {
+            if (!in_array($row[$this->dataLimitField], $adminIds))
+            {
+                $this->error(__('You have no permission'));
+            }
+        }
+        if ($this->request->isPost())
+        {
+            $params = $this->request->post("row/a");
+            if ($params)
+            {
+                try
+                {
+                    //是否采用模型验证
+                    if ($this->modelValidate)
+                    {
+                        $name = basename(str_replace('\\', '/', get_class($this->model)));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : true) : $this->modelValidate;
+                        $row->validate($validate);
+                    }
+                    $result = $row->allowField(true)->save($params);
+                    if ($result !== false)
+                    {
+                        $this->success();
+                    }
+                    else
+                    {
+                        $this->error($row->getError());
+                    }
+                }
+                catch (\think\exception\PDOException $e)
+                {
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        $this->view->assign("row", $row);
+        return $this->view->fetch();
     }
 
     public function detail($ids=NULL){

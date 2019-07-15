@@ -7,7 +7,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 extend: {
                     index_url: 'user/user/index',
                     add_url: 'user/user/add',
-                  //  edit_url: 'user/user/edit',
+                    edit_url: 'user/user/edit',
                     detail_url: 'user/user/detail',
                   //  del_url: 'user/user/del',
                     multi_url: 'user/user/multi',
@@ -55,12 +55,13 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 buttons.push({
                                     name: 'edit',
                                     icon: 'fa fa-exchange',
-                                    title: '编辑状态',
+                                    title: '修改金币',
                                     extend: 'data-toggle="tooltip"',
                                     classname: 'btn btn-xs btn-primary btn-editone',
                                     // url: options.extend.detail_url
                                 });
                             }
+
 
                             if (options.extend.detail_url !== '') {
                                 buttons.push({
