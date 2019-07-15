@@ -1,0 +1,160 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" data-rule="required" data-source="user/index" data-field="nickname" class="form-control selectpage" name="row[user_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Open_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-open_id" data-rule="required" data-source="open/index" class="form-control selectpage" name="row[open_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Nick_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-nick_name" class="form-control" name="row[nick_name]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Avatar_url')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-avatar_url" class="form-control" name="row[avatar_url]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mobile" class="form-control" name="row[mobile]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Gender')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-gender" class="form-control selectpicker" name="row[gender]">
+                {foreach name="genderList" item="vo"}
+                    <option value="{$key}" {in name="key" value="0"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Province')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-province" class="form-control" name="row[province]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('City')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class='control-relative'><input id="c-city" class="form-control" data-toggle="city-picker" name="row[city]" type="text"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Area')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-area" class="form-control" name="row[area]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Isvalid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-isvalid" class="form-control" name="row[isvalid]" type="text" value="b'1'">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Level')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-level" data-rule="required" class="form-control selectpicker" name="row[level]">
+                {foreach name="levelList" item="vo"}
+                    <option value="{$key}" {in name="key" value="1"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Point')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-point" class="form-control" name="row[point]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Is_banned')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-is_banned" class="form-control selectpicker" name="row[is_banned]">
+                {foreach name="isBannedList" item="vo"}
+                    <option value="{$key}" {in name="key" value="2"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Is_back')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-is_back" class="form-control selectpicker" name="row[is_back]">
+                {foreach name="isBackList" item="vo"}
+                    <option value="{$key}" {in name="key" value="2"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Bind_mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-bind_mobile" data-rule="required" class="form-control selectpicker" name="row[bind_mobile]">
+                {foreach name="bindMobileList" item="vo"}
+                    <option value="{$key}" {in name="key" value="2"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Is_manage')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                        
+            <select  id="c-is_manage" data-rule="required" class="form-control selectpicker" name="row[is_manage]">
+                {foreach name="isManageList" item="vo"}
+                    <option value="{$key}" {in name="key" value="2"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Sign_count')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sign_count" data-rule="required" class="form-control" name="row[sign_count]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Add_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-add_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[add_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Update_time')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-update_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_time]" type="text" value="{:date('Y-m-d H:i:s')}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

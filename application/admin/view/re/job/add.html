@@ -1,0 +1,211 @@
+<style>
+    #map{
+        width:60%;
+        height:300px;
+    }
+</style>
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">所属公司:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-comp_id" data-rule="required" data-source="company/index" class="form-control selectpage" name="row[re_company_id]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">经验要求:</label>
+        <div class="col-xs-12 col-sm-8">
+        
+            <input id="c-project_experience" data-rule="required" data-source="common/getWebConfig?name=project_experience" class="form-control selectpage" name="row[project_experience]" type="text" value=""  data-pagination="true" data-page-size="10" data-multiple="false" >
+        </div>
+    </div>
+
+     <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">学历:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <input id="c-education" data-rule="required" data-source="common/getWebConfig?name=education" class="form-control selectpage" name="row[education]" type="text" value=""  data-pagination="true" data-page-size="10" data-multiple="false" >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">月薪:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <input id="c-salary_range" data-rule="required" data-source="common/getWebConfig?name=salary_range" class="form-control selectpage" name="row[salary_range]" type="text" value=""  data-pagination="true" data-page-size="10" data-multiple="false" >
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">技能标签(请用"/"作为间隔):</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-project_label" class="form-control " rows="5" name="row[project_label]" cols="50"></textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">推荐奖励:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-reward" class="form-control" step="0.01" name="row[reward]" type="number" value="">
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">岗位职责:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-instruction" class="form-control" rows="2" name="row[instruction]" cols="50"></textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">任职要求:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-requirement" class="form-control" rows="2" name="row[requirement]" cols="50"></textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-address" class="form-control" name="row[address]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <div class="col-lg-1">
+            <button class="btn btn-primary" type="button" onclick="search(this)">搜索</button>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="control-label col-lg-1">{:__('Coordinate')}</label>
+        <div class="col-lg-2">
+            <input class=" form-control" id="c-coordinate" name="row[coordinate]" type="text" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Area')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-area" class="form-control" name="row[area]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <label  class="control-label col-lg-2">地图显示</label>
+        <div class="col-lg-10">
+            <div id="map" class=" gmaps"></div>
+            <p id="info" style="margin-top:10px;"></p>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=JYTBZ-6GD3V-ZTZPJ-U35RX-EZMGQ-45BTF"></script>
+<script>
+    var geocoder, map, marker = null, markersArray = [];
+    var init = function () {
+        var center = new qq.maps.LatLng(39.916527, 116.397128);
+        map = new qq.maps.Map(document.getElementById('map'), {
+            center: center,
+            zoom: 13
+        });
+
+        //地址和经纬度之间进行转换服务
+        geocoder = new qq.maps.Geocoder();
+        //获取城市列表接口设置中心点
+        citylocation = new qq.maps.CityService({
+            complete: function (result) {
+                map.setCenter(result.detail.latLng);
+            }
+        });
+        //调用searchLocalCity();方法    根据用户IP查询城市信息。
+        citylocation.searchLocalCity();
+        qq.maps.event.addDomListener(map, 'click', function (event) {
+            //获取经纬度数值   按照,分割字符串 取出前两位 解析成浮点数
+            var lat = parseFloat(event.latLng.getLat());
+            var lng = parseFloat(event.latLng.getLng());
+            var latLng = new qq.maps.LatLng(lat, lng);
+            //调用获取位置方法
+            geocoder.getAddress(latLng);
+            geocoder.setComplete(function (result) {
+                console.log(result);
+                map.setCenter(result.detail.location);
+                clearOverlays();
+                var marker = new qq.maps.Marker({
+                    map: map,
+                    position: result.detail.location
+                });
+                markersArray.push(marker);
+                $("#c-address").val(result.detail.address);
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-area").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+            });
+        });
+    }
+    init();
+    //清除覆盖层
+    function clearOverlays() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+        }
+    }
+    function search(obj) {
+        var address = $("#c-address").val();
+        //对指定地址进行解析
+        geocoder.getLocation(address);
+        //设置服务请求成功的回调函数
+        geocoder.setComplete(function (result) {
+            map.setCenter(result.detail.location);
+            var marker = new qq.maps.Marker({
+                map: map,
+                position: result.detail.location
+            });
+            $("#c-coordinate").val(result.detail.location);
+            $("#c-area").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+            //点击Marker会弹出反查结果
+            qq.maps.event.addListener(marker, 'click', function () {
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-address").val(result.detail.address)
+                $("#c-area").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+                alert("坐标地址为： " + result.detail.location);
+            });
+        });
+        //若服务请求失败，则运行以下函数
+        geocoder.setError(function () {
+            alert("出错了，请输入正确的地址！！！");
+        });
+
+    }
+</script>

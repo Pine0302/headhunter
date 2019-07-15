@@ -1,0 +1,252 @@
+<style>
+    #map{
+        width:60%;
+        height:300px;
+    }
+</style>
+
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">所属活动类型:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-re_traintype_id" data-rule="required" data-source="re/Traintype/index" class="form-control selectpage" name="row[re_traintype_id]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">小图:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-pic_env" data-rule="" class="form-control" size="50" name="row[pic_env]" type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-pic_env" class="btn btn-danger plupload" data-input-id="c-pic_env" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-pic_env"><i class="fa fa-upload"></i> 上传</button></span>
+                    <!-- <span><button type="button" id="fachoose-pic_swap" class="btn btn-primary fachoose" data-input-id="c-pic_swap" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> 选择</button></span>-->
+                </div>
+                <span class="msg-box n-right" for="c-pic_env"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-pic_env"></ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">活动轮播图:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-pic_swap" data-rule="" class="form-control" size="50" name="row[pic_swap]" type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-pic_swap" class="btn btn-danger plupload" data-input-id="c-pic_swap" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-pic_swap"><i class="fa fa-upload"></i> 上传</button></span>
+                    <!-- <span><button type="button" id="fachoose-pic_swap" class="btn btn-primary fachoose" data-input-id="c-pic_swap" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> 选择</button></span>-->
+                </div>
+                <span class="msg-box n-right" for="c-pic_swap"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-pic_swap"></ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">活动费用:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-fee" class="form-control" step="0.01" name="row[fee]" type="number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">推荐佣金:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-reward_up" class="form-control" step="0.01" name="row[reward_up]" type="number">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">奖励金周期:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-reward_days" class="form-control" name="row[reward_days]" type="number"  value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">活动开始时间:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-train_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[train_time]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">活动结束时间:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-train_end_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[train_end_time]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">报名截止时间:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sign_time" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[sign_time]" type="text" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">人数定额:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-max_person" class="form-control" name="row[max_person]" type="number">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">已报名人数:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-person_count" class="form-control" name="row[person_count]" type="number">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">活动状态:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="form-control"  id="c-status"  name="row[status]" >
+                <option value="1" >报名人满结束</option>
+                <option value="2"  selected>报名中</option>
+                <option value="3" >报名未满取消</option>
+                <option value="4" >活动已结束</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" class="form-control editor" rows="5" name="row[content]" cols="50"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-address" class="form-control" name="row[address]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <div class="col-lg-1">
+            <button class="btn btn-primary" type="button" onclick="search(this)">搜索</button>
+        </div>
+    </div>
+    <div class="form-group ">
+        <label class="control-label col-lg-1">经纬度</label>
+        <div class="col-lg-2">
+            <input class=" form-control" id="c-coordinate" name="row[coordinate]" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">所属区域:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-area" class="form-control" name="row[area]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group ">
+        <label  class="control-label col-lg-2">地图显示</label>
+        <div class="col-lg-10">
+            <div id="map" class=" gmaps"></div>
+            <p id="info" style="margin-top:10px;"></p>
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=JYTBZ-6GD3V-ZTZPJ-U35RX-EZMGQ-45BTF"></script>
+<script>
+    var geocoder, map, marker = null, markersArray = [];
+    var init = function () {
+        var center = new qq.maps.LatLng(39.916527, 116.397128);
+        map = new qq.maps.Map(document.getElementById('map'), {
+            center: center,
+            zoom: 13
+        });
+
+        //地址和经纬度之间进行转换服务
+        geocoder = new qq.maps.Geocoder();
+        //获取城市列表接口设置中心点
+        citylocation = new qq.maps.CityService({
+            complete: function (result) {
+                map.setCenter(result.detail.latLng);
+            }
+        });
+        //调用searchLocalCity();方法    根据用户IP查询城市信息。
+        citylocation.searchLocalCity();
+        qq.maps.event.addDomListener(map, 'click', function (event) {
+            //获取经纬度数值   按照,分割字符串 取出前两位 解析成浮点数
+            var lat = parseFloat(event.latLng.getLat());
+            var lng = parseFloat(event.latLng.getLng());
+            var latLng = new qq.maps.LatLng(lat, lng);
+            //调用获取位置方法
+            geocoder.getAddress(latLng);
+            geocoder.setComplete(function (result) {
+                console.log(result);
+                map.setCenter(result.detail.location);
+                clearOverlays();
+                var marker = new qq.maps.Marker({
+                    map: map,
+                    position: result.detail.location
+                });
+                markersArray.push(marker);
+                $("#c-address").val(result.detail.address);
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-area").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+            });
+        });
+    }
+    init();
+    //清除覆盖层
+    function clearOverlays() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+        }
+    }
+    function search(obj) {
+        var address = $("#c-address").val();
+        //对指定地址进行解析
+        geocoder.getLocation(address);
+        //设置服务请求成功的回调函数
+        geocoder.setComplete(function (result) {
+            map.setCenter(result.detail.location);
+            var marker = new qq.maps.Marker({
+                map: map,
+                position: result.detail.location
+            });
+            $("#c-coordinate").val(result.detail.location);
+            $("#c-area").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+            //点击Marker会弹出反查结果
+            qq.maps.event.addListener(marker, 'click', function () {
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-address").val(result.detail.address)
+                $("#c-area").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+                alert("坐标地址为： " + result.detail.location);
+            });
+        });
+        //若服务请求失败，则运行以下函数
+        geocoder.setError(function () {
+            alert("出错了，请输入正确的地址！！！");
+        });
+
+    }
+</script>

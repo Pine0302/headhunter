@@ -1,0 +1,209 @@
+<style>
+    #map{
+        width:60%;
+        height:300px;
+    }
+</style>
+
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">轮播图:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-pic_swap" data-rule="" class="form-control" size="50" name="row[pic_swap]" type="text" value="{$row.pic_swap}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-pic_swap" class="btn btn-danger plupload" data-input-id="c-pic_swap" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-pic_swap"><i class="fa fa-upload"></i> 上传</button></span>
+                    <span><button type="button" id="fachoose-pic_swap" class="btn btn-primary fachoose" data-input-id="c-pic_swap" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> 选择</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-pic_swap"></span>
+            </div>
+
+            <ul class="row list-inline plupload-preview" id="p-pic_swap">
+
+            </ul>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script src= "https://code.jquery.com/jquery-latest.js" ></script>
+<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=JYTBZ-6GD3V-ZTZPJ-U35RX-EZMGQ-45BTF"></script>
+<script>
+/*    var geocoder, map, marker = null, markersArray = [];
+    var coordinate = $("#c-coordinate").val();
+    var init = function () {
+        var center = new qq.maps.LatLng(coordinate);
+        map = new qq.maps.Map(document.getElementById('map'), {
+            center: center,
+            zoom: 13
+        });
+
+        //地址和经纬度之间进行转换服务
+        geocoder = new qq.maps.Geocoder();
+        //获取城市列表接口设置中心点
+        citylocation = new qq.maps.CityService({
+            complete: function (result) {
+                map.setCenter(result.detail.latLng);
+            }
+        });
+        //调用searchLocalCity();方法    根据用户IP查询城市信息。
+        citylocation.searchLocalCity();
+        qq.maps.event.addDomListener(map, 'click', function (event) {
+            //获取经纬度数值   按照,分割字符串 取出前两位 解析成浮点数
+            var lat = parseFloat(event.latLng.getLat());
+            var lng = parseFloat(event.latLng.getLng());
+            var latLng = new qq.maps.LatLng(lat, lng);
+            //调用获取位置方法
+            geocoder.getAddress(latLng);
+            geocoder.setComplete(function (result) {
+                console.log(result);
+                map.setCenter(result.detail.location);
+                clearOverlays();
+                var marker = new qq.maps.Marker({
+                    map: map,
+                    position: result.detail.location
+                });
+                markersArray.push(marker);
+                $("#c-address").val(result.detail.address);
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-areas").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city);
+            });
+        });
+    }
+    init();
+    //清除覆盖层
+    function clearOverlays() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+        }
+    }
+    function search(obj) {
+        var address = $("#c-address").val();
+        //对指定地址进行解析
+        geocoder.getLocation(address);
+        //设置服务请求成功的回调函数
+        geocoder.setComplete(function (result) {
+            map.setCenter(result.detail.location);
+            var marker = new qq.maps.Marker({
+                map: map,
+                position: result.detail.location
+            });
+            $("#c-coordinate").val(result.detail.location);
+            $("#c-areas").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city);
+            //点击Marker会弹出反查结果
+            qq.maps.event.addListener(marker, 'click', function () {
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-address").val(result.detail.address)
+                $("#c-areas").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city);
+                alert("坐标地址为： " + result.detail.location);
+            });
+        });
+        //若服务请求失败，则运行以下函数
+        geocoder.setError(function () {
+            alert("出错了，请输入正确的地址！！！");
+        });
+
+    }*/
+</script>
+<script>
+    var geocoder, map, marker = null, markersArray = [];
+    var init = function () {
+        var coordinate = $("#c-coordinate").val();
+        var coordinate_arr = coordinate.split(',');
+        var center = new qq.maps.LatLng(parseFloat(coordinate_arr['0']), parseFloat(coordinate_arr[1]));
+        console.log(center);
+        map = new qq.maps.Map(document.getElementById('map'), {
+            center: center,
+            zoom: 13
+        });
+
+        var lat = parseFloat(parseFloat(coordinate_arr[0]));
+        var lng = parseFloat( parseFloat(coordinate_arr[1]));
+        var latLng = new qq.maps.LatLng(lat, lng);
+        map.setCenter(latLng);
+        //地址和经纬度之间进行转换服务
+        geocoder = new qq.maps.Geocoder();
+        //获取城市列表接口设置中心点
+
+        /* citylocation = new qq.maps.CityService({
+         complete: function (result) {
+         }
+         });*/
+
+
+        //调用searchLocalCity();方法    根据用户IP查询城市信息。
+        //   citylocation.searchLocalCity();
+        qq.maps.event.addDomListener(map, 'click', function (event) {
+            //获取经纬度数值   按照,分割字符串 取出前两位 解析成浮点数
+            var lat = parseFloat(event.latLng.getLat());
+            var lng = parseFloat(event.latLng.getLng());
+            var latLng = new qq.maps.LatLng(lat, lng);
+            //调用获取位置方法
+            geocoder.getAddress(latLng);
+            geocoder.setComplete(function (result) {
+                console.log(result);
+                map.setCenter(result.detail.location);
+                clearOverlays();
+                var marker = new qq.maps.Marker({
+                    map: map,
+                    position: result.detail.location
+                });
+                markersArray.push(marker);
+                $("#c-address").val(result.detail.address);
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-areas").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+            });
+        });
+    }
+    init();
+    //清除覆盖层
+    function clearOverlays() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+        }
+    }
+    function search(obj) {
+        var address = $("#c-address").val();
+        //对指定地址进行解析
+        geocoder.getLocation(address);
+        //设置服务请求成功的回调函数
+        geocoder.setComplete(function (result) {
+            map.setCenter(result.detail.location);
+            var marker = new qq.maps.Marker({
+                map: map,
+                position: result.detail.location
+            });
+            $("#c-coordinate").val(result.detail.location);
+            $("#c-areas").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+            //点击Marker会弹出反查结果
+            qq.maps.event.addListener(marker, 'click', function () {
+                console.log(result.detail);return;
+                $("#c-coordinate").val(result.detail.location);
+                $("#c-address").val(result.detail.address)
+                $("#c-areas").val(result.detail.addressComponents.province+'-'+result.detail.addressComponents.city+'-'+result.detail.addressComponents.district);
+                alert("坐标地址为： " + result.detail.location);
+            });
+        });
+        //若服务请求失败，则运行以下函数
+        geocoder.setError(function () {
+            alert("出错了，请输入正确的地址！！！");
+        });
+
+    }
+
+</script>

@@ -1,0 +1,16 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+{foreach $list as $vo}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{$vo.name}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" data-rule="required" data-source="" data-field="nickname" class="form-control" name="" type="text" value="{$vo.val}" readonly>
+        </div>
+    </div>
+{/foreach}
+
+</form>
+
+
+
+

@@ -1,0 +1,88 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Reply_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-reply_id" data-rule="required" data-source="reply/index" class="form-control selectpage" name="row[reply_id]" type="text" value="{$row.reply_id}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Low_user_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-low_user_id" data-rule="required" data-source="low/user/index" class="form-control selectpage" name="row[low_user_id]" type="text" value="{$row.low_user_id}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Up_user_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-up_user_id" data-rule="required" data-source="up/user/index" class="form-control selectpage" name="row[up_user_id]" type="text" value="{$row.up_user_id}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rec_user_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rec_user_id" data-rule="required" data-source="rec/user/index" class="form-control selectpage" name="row[rec_user_id]" type="text" value="{$row.rec_user_id}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Lower_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-lower_cash" class="form-control" step="0.01" name="row[lower_cash]" type="number" value="{$row.lower_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rec_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rec_cash" class="form-control" step="0.01" name="row[rec_cash]" type="number" value="{$row.rec_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('P_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-p_cash" class="form-control" step="0.01" name="row[p_cash]" type="number" value="{$row.p_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Agent_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-agent_cash" class="form-control" step="0.01" name="row[agent_cash]" type="number" value="{$row.agent_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Way')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-way" class="form-control" name="row[way]" type="number" value="{$row.way}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" class="form-control" name="row[status]" type="number" value="{$row.status}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Total_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-total_cash" class="form-control" step="0.01" name="row[total_cash]" type="number" value="{$row.total_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Create_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-create_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[create_at]" type="text" value="{$row.create_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Update_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-update_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_at]" type="text" value="{$row.update_at}">
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

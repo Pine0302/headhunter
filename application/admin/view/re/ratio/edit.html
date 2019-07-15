@@ -1,0 +1,88 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+   <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rec_user_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rec_user_cash" class="form-control" step="0.01" name="row[rec_user_cash]" type="number" value="{$row.rec_user_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Rec_user_per')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-rec_user_per" class="form-control" name="row[rec_user_per]" type="number" value="{$row.rec_user_per}">
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">会员提现比例%:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-withdraw_per" class="form-control" name="row[withdraw_per]" type="number" value="{$row.withdraw_per}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">代理商信息:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-uid" data-rule="required" data-field="info" data-source="re/ratio/agent" class="form-control selectpage" name="row[uid]" type="text" value="{$row.uid}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('P_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-p_cash" class="form-control" step="0.01" name="row[p_cash]" type="number" value="{$row.p_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('P_per')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-p_per" class="form-control" name="row[p_per]" type="number" value="{$row.p_per}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">平台获取佣金方式:</label>
+        <div class="col-xs-12 col-sm-8">
+            <!--<input id="c-reward_type" class="form-control" name="row[reward_type]" type="text" value="{$row.reward_type==1 ? '已录用' : '待录用'}">-->
+
+            <select class="form-control"  id="c-reward_type"  name="row[reward_type]" >
+                <option value ="1" {$row.reward_type==1 ? 'selected' : ''}>固定金额</option>
+                <option value="2" {$row.reward_type==2 ? 'selected' : ''} >固定比例</option>
+            </select>
+
+        </div>
+    </div>
+
+
+
+  <!--  <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Agent_cash')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-agent_cash" class="form-control" step="0.01" name="row[agent_cash]" type="number" value="{$row.agent_cash}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Agent_per')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-agent_per" class="form-control" name="row[agent_per]" type="number" value="{$row.agent_per}">
+        </div>
+    </div>-->
+    <!--<div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Create_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-create_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[create_at]" type="text" value="{$row.create_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Update_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-update_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_at]" type="text" value="{$row.update_at}">
+        </div>
+    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
