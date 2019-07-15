@@ -1,0 +1,98 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+   <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_id" data-rule="required" data-source="user/index" data-field="nickname" class="form-control selectpage" name="row[user_id]" type="text" value="{$row.user_id}">
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text" value="{$row.name}" disabled>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">住址:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-user_address" class="form-control" name="row[user_address]" type="text" value="{$row.user_address}" disabled>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">性别:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sex" class="form-control" name="row[sex]" type="text" value="{$row.sex==1 ? '男' : '女'}" disabled>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">出生日期:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-birth" class="form-control" name="row[birth]" type="text" value="{$row.birth}" disabled>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">手机号:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-mobile" class="form-control" name="row[mobile]" type="text" value="{$row.mobile}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Id_num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-id_num" class="form-control" name="row[id_num]" type="text" value="{$row.id_num}" disabled>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Comp_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-comp_id" data-rule="required" data-source="company/indexSpec" class="form-control" name="row[re_company_id]" type="text" value="{$row.reCompany.name}" disabled>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">是否在职:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="form-control"  id="c-in_service"  name="row[in_service]" >
+                <option value ="1" {$row.in_service==1 ? 'selected' : ''}>在职</option>
+                <option value ="2" {$row.in_service==2 ? 'selected' : ''}>不在职</option>
+
+            </select>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('User_address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-user_address" class="form-control " rows="5" name="row[user_address]" cols="50">{$row.user_address}</textarea>
+        </div>
+    </div>
+   <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Create_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-create_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[create_at]" type="text" value="{$row.create_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Update_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-update_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_at]" type="text" value="{$row.update_at}">
+        </div>
+    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

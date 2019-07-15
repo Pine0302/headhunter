@@ -1,0 +1,107 @@
+<style>
+    .nonedisplay{
+        display:none
+    }
+</style>
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">公司名称:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-re_company_id" data-rule="required" data-source="re/company/index" class="form-control selectpage" name="row[re_company_id]" type="text" value="{$row.re_company.name}" disabled >
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">金额:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-cash" class="form-control" step="0.01" name="row[cash]" type="number" value="{$row.cash}" disabled>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">存取方向:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-way" class="form-control" name="row[way]" type="text" value="{$row.way==1 ? '存入' : '取出'}" disabled >
+        </div>
+    </div>
+
+    <div class="form-group" id="in">
+        <label class="control-label col-xs-12 col-sm-2">存入方式:</label>
+        <div class="col-xs-12 col-sm-8">
+            <!--     <input id="c-materia" class="form-control" name="row[materia]" type="number" value="{$row.materia}">-->
+            <input id="c-materia" class="form-control" name="row[materia]" type="text" value="{$row.materia==1 ? '支付宝' : '微信'}" disabled  >
+        </div>
+    </div>
+
+
+    <div class="form-group" id="out1">
+        <label class="control-label col-xs-12 col-sm-2">提款账号:</label>
+        <div class="col-xs-12 col-sm-8">
+            <!--     <input id="c-materia" class="form-control" name="row[materia]" type="number" value="{$row.materia}">-->
+            <input id="c-account" class="form-control" name="row[account]" type="text" value="{$row.account}" disabled  >
+        </div>
+    </div>
+
+    <div class="form-group" id="out2">
+        <label class="control-label col-xs-12 col-sm-2">提款渠道:</label>
+        <div class="col-xs-12 col-sm-8">
+            <!--     <input id="c-materia" class="form-control" name="row[materia]" type="number" value="{$row.materia}">-->
+            <input id="c-banktype" class="form-control" name="row[banktype]" type="text" value="{$row.banktype}" disabled  >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Create_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-create_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[create_at]" type="text" value="{$row.create_at}" disabled  >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-status" class="form-control" name="row[status]" type="text" value="{$row.status==1 ? '已提交' :($row.status==3 ? '已完成':'已拒绝') }" disabled >
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+        <!--    <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>-->
+        </div>
+    </div>
+</form>
+
+<script src= "https://code.jquery.com/jquery-latest.js" ></script>
+<script language="javascript">
+
+    $(document).ready(function() {
+        SelectChange();
+       /* $("#c-way").change(function() {
+
+        });*/
+
+    })
+
+    function SelectChange() {
+
+        //获取下拉框选中项的value属性值
+        var selectValue = $("#c-way").val();
+        if(selectValue=="取出"){
+            $('#in').addClass("nonedisplay");
+            /*$('#c-materia').attr("disabled",true);
+            $('#c-account').attr("disabled",false);
+            $('#c-banktype').attr("disabled",false);*/
+            $('#out1').removeClass("nonedisplay");
+            $('#out2').removeClass("nonedisplay");
+        }else{
+            $('#in').removeClass("nonedisplay");
+          /*  $('#c-materia').attr("disabled",false);
+            $('#c-account').attr("disabled",true);
+            $('#c-banktype').attr("disabled",true);*/
+            $('#out1').addClass("nonedisplay");
+            $('#out2').addClass("nonedisplay");
+        }
+    }
+</script>

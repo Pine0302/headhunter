@@ -1,0 +1,77 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Co_type_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-co_type_id" data-rule="required" data-source="co/type/index" class="form-control selectpage" name="row[co_type_id]" type="text" value="{$row.coType.name}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text" value="{$row.name}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pic')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-pic" data-rule="" class="form-control" size="50" name="row[pic]" type="text" value="{$row.pic}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="plupload-pic" class="btn btn-danger plupload" data-input-id="c-pic" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-pic"><i class="fa fa-upload"></i> 上传</button></span>
+                    <span><button type="button" id="fachoose-pic" class="btn btn-primary fachoose" data-input-id="c-pic" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> 选择</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-pic"></span>
+            </div>
+            <ul class="row list-inline plupload-preview" id="p-pic"></ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Summary')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-summary" class="form-control " rows="5" name="row[summary]" cols="50">{$row.summary}</textarea>
+        </div>
+    </div>
+<!--    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Tip_num')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-tip_num" class="form-control" name="row[tip_num]" type="number" value="{$row.tip_num}">
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Enable')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select class="form-control"  id="c-enable"  name="row[enable]" >
+                <option value ="1" {$row.enable==1 ? 'selected' : ''}>展示</option>
+                <option value="2" {$row.enable==2 ? 'selected' : ''} >隐藏</option>
+            </select>
+        </div>
+    </div>
+
+   <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Create_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-create_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[create_at]" type="text" value="{$row.create_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Update_at')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-update_at" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[update_at]" type="text" value="{$row.update_at}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Tip_update')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-tip_update" class="form-control" name="row[tip_update]" type="number" value="{$row.tip_update}">
+        </div>
+    </div>-->
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
