@@ -101,7 +101,7 @@ class Admin extends Backend
                     ->where('id', 'in', $this->childrenAdminIds)
                     ->order($sort, $order)
                     ->count();
-
+            $this->model->removeOption();
             $list = $this->model
                     ->where($where)
                     ->where('id', 'in', $this->childrenAdminIds)
@@ -109,6 +109,7 @@ class Admin extends Backend
                     ->order($sort, $order)
                     ->limit($offset, $limit)
                     ->select();
+
             foreach ($list as $k => &$v)
             {
                 $groups = isset($adminGroupName[$v['id']]) ? $adminGroupName[$v['id']] : [];

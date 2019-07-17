@@ -173,6 +173,9 @@ class User extends Api
         $birthday = $data['birthday'] ?? '';
         if ((!empty($sess_key)) &&(!empty($mobile))&&(!empty($username)) ) {
             $user_info = $this->getGUserInfo($sess_key);
+            if(empty($user_info)){
+                $this->error('认证失败,用户数据未获取到',null,2);
+            }
             $arr = [];
             if(!empty($mobile)) $arr['mobile'] = $mobile ;
             if(!empty($gender)) $arr['gender'] = $gender ;

@@ -142,18 +142,18 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-danger btn-delone'
                                 });
                             }*/
-                          /*  if((row.offer_status==0)||(row.offer_status==3)||(row.offer_status==4)){
+                            if((row.show_status==2)){
                                 if (options.extend.pass_url !== '') {
                                     buttons.push({
                                         name: 'pass',
                                         icon: 'fa fa-check',
-                                        title:'录用',
+                                        title:'允许查看',
                                         extend: 'data-toggle="tooltip"',
                                         classname: 'btn btn-xs btn-primary btn-passone',
                                     });
                                 }
 
-                                if (options.extend.deny_url !== '') {
+                               /* if (options.extend.deny_url !== '') {
                                     buttons.push({
                                         name: 'deny',
                                         icon: 'fa fa-times',
@@ -162,8 +162,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         classname: 'btn btn-xs btn-primary btn-denyone',
                                     });
                                 }
-
-                            }*/
+*/
+                            }
 
                             return Table.api.buttonlink(this, buttons, value, row, index, 'operate');
                         }}

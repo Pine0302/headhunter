@@ -243,9 +243,64 @@ class Apply extends Backend
 
 
     /**
-     * 确认通过
+     * 允许查看
      */
     public function pass($ids = NULL)
+    {
+        $row = $this->model->get($ids);
+        if (!$row)
+            $this->error(__('No Results were found'));
+        $adminIds = $this->getDataLimitAdminIds();
+        if (is_array($adminIds))
+        {
+            if (!in_array($row[$this->dataLimitField], $adminIds))
+            {
+                $this->error(__('You have no permission'));
+            }
+        }
+        if ($this->request->isPost())
+        {
+            $params = [
+                'offer'=>2,
+                'show_status'=>1,
+            ];
+
+            if ($params)
+            {
+                try
+                {
+                    //是否采用模型验证
+                    if ($this->modelValidate)
+                    {
+                        $name = basename(str_replace('\\', '/', get_class($this->model)));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : true) : $this->modelValidate;
+                        $row->validate($validate);
+                    }
+                    $result = $row->allowField(true)->save($params);
+                    if ($result !== false)
+                    {
+                        $this->success();
+                    }
+                    else
+                    {
+                        $this->error($row->getError());
+                    }
+                }
+                catch (\think\exception\PDOException $e)
+                {
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+    }
+
+
+
+    /**
+     * 确认通过
+     */
+    public function pass1($ids = NULL)
     {
         $row = $this->model->get($ids);
         if (!$row)

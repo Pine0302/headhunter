@@ -195,8 +195,8 @@ class Crondjob extends Api
     public function createHrAgentAdmin(){
         $nonAdminUser = Db::table("user")->where('ad_id',null)->select();
         foreach($nonAdminUser as $ka=>$va){
-            if(!empty($va['password'])){
-
+          //  if(!empty($va['password'])){
+                $va['password'] = "123456";
                 $params['admin_id'] = 1;
                 $params['username'] = $va['mobile'];
                 $params['email'] = $va['email'];
@@ -210,7 +210,7 @@ class Crondjob extends Api
                 ];
                 Db::table('auth_group_access')->insert($para);
                 Db::table('user')->where('id','=',$va['id'])->update(['ad_id'=>$insert_id]);
-            }
+        //    }
         }
     }
 

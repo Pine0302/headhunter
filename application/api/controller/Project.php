@@ -52,7 +52,7 @@ class Project extends Api
         $project_label3 = isset($data['project_label3']) ? $data['project_label3'] : '';
         $project_label4 = isset($data['project_label4']) ? $data['project_label4'] : '';
 
-        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 2;
+        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 1;
         $reward = isset($data['reward']) ? $data['reward'] : 0;
 
         $salary_range = isset($data['salary_range']) ? $data['salary_range'] : 0;
@@ -127,7 +127,7 @@ class Project extends Api
         //   error_log(var_export($data,1),3,"/data/wwwroot/mini3.pinecc.cn/runtime/test.txt");
         $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
         $re_company_id = isset($data['re_company_id']) ? $data['re_company_id'] : '';
-        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 2 ;
+        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 1 ;
         $re_line_id = isset($data['re_line_id']) ? $data['re_line_id'] : '';
         $job_experience = isset($data['job_experience']) ? $data['job_experience'] : '';
         $mini_salary = isset($data['mini_salary']) ? $data['mini_salary'] : '';
@@ -151,7 +151,7 @@ class Project extends Api
                 $user_info = $this->getGUserInfo($sess_key);
                 $jobQuery = Db::table('re_project');
                 $jobQuery->alias('j');
-                $jobQuery->where('j.is_bonus','=',$is_bonus);
+               // $jobQuery->where('j.is_bonus','=',$is_bonus);
                 if($re_company_id)      $jobQuery->where('j.re_company_id','=',$re_company_id);
                 if($status)     {
                     if($status!=6){
@@ -334,7 +334,11 @@ class Project extends Api
                 $city_info = Db::table('areas')->where('areano','=',$work_detail['city_code'])->find();
                 $district_info = Db::table('areas')->where('areano','=',$work_detail['district_code'])->find();
                 $nature = config('webset.nature')[$work_detail['nature']];
-                $job_experience = config('webset.job_experience')[$work_detail['job_experience']];
+                $job_experience = '无';
+                if (isset($work_detail['job_experience'])){
+                    $job_experience = config('webset.job_experience')[$work_detail['job_experience']];
+                }
+
 
 
             //    $job_label_arr = explode("/",$work_detail['project_label']);

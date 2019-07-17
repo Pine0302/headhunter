@@ -248,6 +248,7 @@ class Company extends Backend
         if ($this->request->isPost())
         {
             $params = $this->request->post("row/a");
+           // print_r($params);exit;
             if ($params)
             {
                 try

@@ -108,6 +108,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         },
                                     ];
                                 }
+
+
+
                                 return Table.api.formatter.buttons.apply(that, [value, row, index]);
                             },
                          /*   buttons: [
@@ -133,7 +136,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
 
 
-                        /*{field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter:  function (value, row, index) {
+                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter:  function (value, row, index) {
                             var table = this.table;
                             // 操作配置
                             var options = table ? table.bootstrapTable('getOptions') : {};
@@ -151,7 +154,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 });
 
                             }
-                            if (options.extend.detail_url !== '') {
+                            /*if (options.extend.detail_url !== '') {
                                 buttons.push({
                                     name: 'detail',
                                     icon: 'fa fa-exchange',
@@ -160,12 +163,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     classname: 'btn btn-xs btn-primary btn-detailone',
 
                                 });
-                            }
+                            }*/
 
 
 
                             return Table.api.buttonlink(this, buttons, value, row, index, 'operate');
-                        }}*/
+                        }}
                     ]
                 ]
             });

@@ -75,7 +75,7 @@ class Work extends Api
         $job_label3 = isset($data['job_label3']) ? $data['job_label3'] : '';
         $job_label4 = isset($data['job_label4']) ? $data['job_label4'] : '';
 
-        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 2;
+        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 1;
         $reward = isset($data['reward']) ? $data['reward'] : 0;
 
         $salary_range = isset($data['salary_range']) ? $data['salary_range'] : 0;
@@ -157,7 +157,7 @@ class Work extends Api
         $data = $this->request->post();
         //   error_log(var_export($data,1),3,"/data/wwwroot/mini3.pinecc.cn/runtime/test.txt");
         $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
-        $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 2 ;
+      //  $is_bonus = isset($data['is_bonus']) ? $data['is_bonus'] : 2 ;
         $re_company_id = isset($data['re_company_id']) ? $data['re_company_id'] : '';
         $re_line_id = isset($data['re_line_id']) ? $data['re_line_id'] : '';
         $job_experience = isset($data['job_experience']) ? $data['job_experience'] : '';
@@ -182,7 +182,7 @@ class Work extends Api
                 $user_info = $this->getGUserInfo($sess_key);
                 $jobQuery = Db::table('re_job');
                 $jobQuery->alias('j');
-                $jobQuery->where('j.is_bonus','=',$is_bonus);
+              //  $jobQuery->where('j.is_bonus','=',$is_bonus);
                 if($re_company_id)      $jobQuery->where('j.re_company_id','=',$re_company_id);
                 if($status) $jobQuery->where('j.status','=',$status);
                 if($re_line_id)         $jobQuery->where('j.re_line_id','=',$re_line_id);
@@ -215,6 +215,7 @@ class Work extends Api
 
 
                 $count = $jobQuery->count();
+              //  print_r($jobQuery->getLastSql());exit;
                 $jobQuery->removeOption('field');
                 $jobQuery->join('re_company c','j.re_company_id = c.id','left');
                 $jobQuery->join('re_line l','l.id = c.re_line_id','left');
@@ -245,6 +246,7 @@ class Work extends Api
                     $work_arr =$jobQuery
                         ->page($page,$page_size)
                         ->select();
+
                     $jobQuery->removeOption();
                     $page_info = [
                         'cur_page'=>$page,
@@ -262,7 +264,7 @@ class Work extends Api
                         }
 
 
-                        if(!empty($vwa['education'])){
+                        if(!empty($vw['education'])){
                             $education = config('webset.education')[$vw['education']];
                         }else{
                             $education = "未知";
