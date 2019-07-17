@@ -154,6 +154,49 @@ class Company extends Api
         }
     }
 
+
+    //申请公司认证
+    public function applyCompany(){
+        $data = $this->request->post();
+        $re_company_id = isset($data['re_company_id']) ? $data['re_company_id'] : '';
+        $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
+
+        if(!empty($sess_key)){
+            try{
+                $user_info = $this->getGUserInfo($sess_key);
+                $company_apply_info = [];
+                $companyApplyQuery = Db::table('re_company_apply');
+                $company_apply_info = $companyApplyQuery
+                    ->where('re_company_id','=',$re_company_id)
+                    ->where('user_id','=',$user_info['id'])
+                    ->find();
+                $companyApplyQuery->removeOption();
+                $arr_insert_company_apply =[
+                    'user_id'=> $user_info['id'],
+                    're_company_id'=> $re_company_id,
+                    'create_at'=> date("Y-m-d H:i:s"),
+                    'update_at'=> date("Y-m-d H:i:s"),
+                    'status'=>0,
+                ];
+                $companyApplyQuery = Db::table('re_company_apply');
+                if(!empty($company_apply_info)){
+                    $companyApplyQuery->where('re_company_id','=',$re_company_id)
+                        ->where('user_id','=',$user_info['id'])
+                        ->update($arr_insert_company_apply);
+                }else{
+                    $companyApplyQuery
+                        ->insert($arr_insert_company_apply);
+                }
+
+                $this->success('success');
+            }catch(Exception $e){
+                $this->error('网络繁忙,请稍后再试');
+            }
+        }else{
+            $this->error('缺少参数',null,2);
+        }
+    }
+
     //公司信息
     public function companyInfo(){
         $data = $this->request->post();

@@ -84,13 +84,19 @@ class Work extends Api
 
         $arr_job = [];
         if(!empty($sess_key)){
-            $hr_info = $this->getGUserInfo($sess_key); //hr 信息
-            $companyQuery = Db::table('re_company');
+            $hr_info = $this->getTUserInfo($sess_key); //hr 信息
+            /*$companyQuery = Db::table('re_company');
             $company_info = $companyQuery->where('user_id','=',$hr_info['id'])->find();
-            $companyQuery->removeOption();
-            if(!$company_info['id']){
+            $companyQuery->removeOption();*/
+            if(empty($hr_info['re_company_id'])){
                 $this->error('未认证公司',null,3);
             }
+            $companyQuery = Db::table('re_company');
+            $company_info = $companyQuery->where('id','=',$hr_info['re_company_id'])->find();
+            $companyQuery->removeOption();
+            /*if(!$company_info['id']){
+                $this->error('未认证公司',null,3);
+            }*/
             $arr_job['re_company_id'] = $company_info['id'];
             $arr_job['user_id'] = $hr_info['id'];
             $arr_job['is_bonus'] = $is_bonus;
@@ -133,6 +139,7 @@ class Work extends Api
             if($salary_range)    {
                 $daterObj = new Dater();
                 $salary_range = $daterObj->getSalaryPath($salary_range);
+
                 if(!empty($salary_range['min_salary']))  $arr_job['mini_salary'] = $salary_range['min_salary'];
                 if(!empty($salary_range['max_salary']))  $arr_job['max_salary'] = $salary_range['max_salary'];
             }
@@ -195,7 +202,7 @@ class Work extends Api
                     $max_salary++;
                     $jobQuery->where('j.min_salary','<',$max_salary);
                 }
-                if($education!=1)          $jobQuery->where('j.education','=',$education);
+                if(($education!=1)&&($education!=0))          $jobQuery->where('j.education','=',$education);
                 if($city_code)      $jobQuery->where('j.city_code','=',$city_code);
                 if($district_code)      $jobQuery->where('j.district_code','=',$district_code);
                 // if($nature)      $jobQuery->where('j.nature','=',$nature);
@@ -215,7 +222,6 @@ class Work extends Api
 
 
                 $count = $jobQuery->count();
-              //  print_r($jobQuery->getLastSql());exit;
                 $jobQuery->removeOption('field');
                 $jobQuery->join('re_company c','j.re_company_id = c.id','left');
                 $jobQuery->join('re_line l','l.id = c.re_line_id','left');
@@ -350,8 +356,15 @@ class Work extends Api
                 $area = '';
                 $city_info = Db::table('areas')->where('areano','=',$work_detail['city_code'])->find();
                 $district_info = Db::table('areas')->where('areano','=',$work_detail['district_code'])->find();
+               // print_r($work_detail);exit;
                 $education = config('webset.education')[$work_detail['education']];
-                $job_experience = config('webset.job_experience')[$work_detail['job_experience']];
+                /*print_r( config('webset.education'));
+                print_r($work_detail);*/
+                $job_experience = '不限';
+                if(!empty($work_detail['job_experience'])){
+                    $job_experience = config('webset.job_experience')[$work_detail['job_experience']];
+                }
+
 
 
                 $work_info = [];
@@ -371,6 +384,7 @@ class Work extends Api
                     'reward' =>$work_detail['reward'],
                     'city_name'=>$city_info['areaname'],
                     'district_name'=>$district_info['areaname'],
+                    'district_code'=>$work_detail['district_code'],
                     'education'=>$education,
                     'job_experience'=>$job_experience,
                 ];

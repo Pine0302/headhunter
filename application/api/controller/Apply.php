@@ -369,6 +369,7 @@ class Apply extends Api
                             're_job_id'=>$va['re_job_id'],
                             're_project_id'=>$va['re_project_id'],
                             're_interview_id'=>$va['re_interview_id'],
+                            'status'=>$va['offer'],
                         ];
                     }
                 }else{
@@ -435,6 +436,7 @@ class Apply extends Api
                                 're_job_id'=>$va['re_job_id'],
                                 're_project_id'=>$va['re_project_id'],
                                 're_interview_id'=>$va['re_interview_id'],
+                                'status'=>$va['offer'],
                             ];
 
                         }else{                  //项目
@@ -465,6 +467,7 @@ class Apply extends Api
                                 're_job_id'=>$va['re_job_id'],
                                 're_project_id'=>$va['re_project_id'],
                                 're_interview_id'=>$va['re_interview_id'],
+                                'status'=>$va['offer'],
                             ];
                         }
                     }

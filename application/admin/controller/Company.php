@@ -511,6 +511,7 @@ class Company extends Backend
                 ->where($where)
                 ->order($sort, $order)
                 ->count();
+            $this->applymodel->removeOption();
             $list = $this->applymodel
                 ->with("reResume,reCompany,reJob,recUser")
                 ->where($where)

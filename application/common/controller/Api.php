@@ -428,7 +428,7 @@ class Api
         $userQuery = Db::table('user');
         $user_arr = $userQuery
             ->where('sess_key','=',$sess_key)
-            ->field('id,openid,nickname,username,avatar,gender,mobile,city_name,city_code,is_engineer,is_hr,is_agent,sess_key,lat,lng,coin,hr_coin,agent_coin,available_balance,password,sign_count,idtype,member_expire,ad_id')
+            ->field('id,openid,nickname,username,avatar,gender,mobile,city_name,city_code,is_engineer,is_hr,is_agent,sess_key,lat,lng,coin,hr_coin,agent_coin,available_balance,password,sign_count,idtype,member_expire,ad_id,re_company_id')
             ->find();
         $userQuery->removeOption();
         return $user_arr;

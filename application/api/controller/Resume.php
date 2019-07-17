@@ -582,8 +582,8 @@ class Resume extends Api
                 $city_info = Db::table('areas')->where('areano','=',$resume_detail['city_code'])->find();
                 $apply_status = 0;
                 if(!empty($re_apply_id)){
-                    $apply_info = Db::table('re_apply')->where('id','=',$re_apply_id)->update(['offer'=>2,'update_at'=>date("Y-m-d H:i:s")]);
-                    Db::table('re_apply')->removeOption();
+               /*     $apply_info = Db::table('re_apply')->where('id','=',$re_apply_id)->update(['offer'=>2,'update_at'=>date("Y-m-d H:i:s")]);
+                    Db::table('re_apply')->removeOption();*/
                     $apply_info = Db::table('re_apply')->where('id','=',$re_apply_id)->find();
                     Db::table('re_apply')->removeOption();
                     $apply_status = $apply_info['offer'];

@@ -59,13 +59,17 @@ class Project extends Api
 
         $arr_job = [];
         if(!empty($sess_key)){
-            $hr_info = $this->getGUserInfo($sess_key); //hr 信息
-            $companyQuery = Db::table('re_company');
-            $company_info = $companyQuery->where('user_id','=',$hr_info['id'])->find();
-            $companyQuery->removeOption();
-            if(!$company_info['id']){
+            $hr_info = $this->getTUserInfo($sess_key); //hr 信息
+
+            if(empty($hr_info['re_company_id'])){
                 $this->error('未认证公司',null,3);
             }
+            $companyQuery = Db::table('re_company');
+            $company_info = $companyQuery->where('id','=',$hr_info['re_company_id'])->find();
+            $companyQuery->removeOption();
+            /*if(!$company_info['id']){
+                $this->error('未认证公司',null,3);
+            }*/
             $arr_job['re_company_id'] = $company_info['id'];
             $arr_job['user_id'] = $hr_info['id'];
             $arr_job['is_bonus'] = $is_bonus;
@@ -171,7 +175,7 @@ class Project extends Api
                     $max_salary++;
                     $jobQuery->where('j.mini_salary','<',$max_salary);
                 }
-                if($education)          $jobQuery->where('j.education','=',$education);
+                if(($education!=1)&&($education!=0))         $jobQuery->where('j.education','=',$education);
                 if($city_code)      $jobQuery->where('j.city_code','=',$city_code);
                 if($district_code)      $jobQuery->where('j.district_code','=',$district_code);
                 if($nature)      $jobQuery->where('j.nature','=',$nature);
