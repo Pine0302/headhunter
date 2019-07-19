@@ -100,6 +100,38 @@ class Notice extends Api
 
 
 
+    //消息通知列表
+    public function noticeCount(){
+        $data = $this->request->post();
+        $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
+        $page = isset($data['page']) ? $data['page'] : 1;
+        $page_size = isset($data['page_size']) ? $data['page_size'] : 10;
+        $notice_config = config('notice');
+
+        if(!empty($sess_key)){
+            try{
+                $user_info = $this->getTUserInfo($sess_key);
+                $noticeQuery = Db::table('re_notice');
+                $noticeQuery->where('to_user_id',$user_info['id']);
+                $noticeQuery->where('is_read',2);
+                $count = $noticeQuery->count();
+                $noticeQuery->removeOption();
+
+                $data = [
+                    'data'=>[
+                        'new_message'=>$count,
+                    ],
+                ];
+                $this->success('success', $data);
+            }catch (Exception $e) {
+                $this->error('网络繁忙,请稍后再试');
+            }
+
+        }else{
+            $this->error('缺少参数',null,2);
+        }
+    }
+
 
 
 

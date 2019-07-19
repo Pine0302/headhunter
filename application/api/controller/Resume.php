@@ -353,14 +353,15 @@ class Resume extends Api
                // if($re_line_id)         $resumeQuery->where('j.re_line_id','=',$re_line_id);
                 if($job_experience)    {
                     $daterObj = new Dater();
-                    $time_range = $daterObj->getWorkTimePath($create_time_num);
+                    $time_range = $daterObj->getWorkTimePath($job_experience);
+                   // print_r($time_range);exit;
                     if(!empty($time_range['start']))  $resumeQuery->where('j.work_begin_time','>',$time_range['start']);
                     if(!empty($time_range['end']))  $resumeQuery->where('j.work_begin_time','<',$time_range['end']);
                 }
                 if($salary_range)    {
                     $daterObj = new Dater();
                     $salary_range = $daterObj->getSalaryPath($salary_range);
-                    if(!empty($salary_range['min_salary']))  $resumeQuery->where('j.min_salary','>',$salary_range['min_salary']);
+                    if(!empty($salary_range['min_salary']))  $resumeQuery->where('j.mini_salary','>',$salary_range['min_salary']);
                     if(!empty($salary_range['max_salary']))  $resumeQuery->where('j.max_salary','<',$salary_range['max_salary']);
                 }
 
@@ -433,8 +434,8 @@ class Resume extends Api
                             'avatar'=>$vw['avatar'],
                         ];
                       //  var_dump($resume_info);
-                        $resume_info['mini_salary'] = round($vw['mini_salary']/1000);
-                        $resume_info['max_salary'] = round($vw['max_salary']/1000);
+                        $resume_info['mini_salary'] = round($vw['mini_salary']);
+                        $resume_info['max_salary'] = round($vw['max_salary']);
                         $resume_info['label1'] = $resume_info['label2'] = $resume_info['label3'] = $resume_info['label4'] = '';
                         if(!empty($vw['label'])){
                             $resume_label_arr = explode("/",$vw['label']);

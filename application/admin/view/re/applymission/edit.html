@@ -1,6 +1,22 @@
 <form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
+
     <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Hour_status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                <!--{foreach name="hourStatusList" item="vo"}
+                <label for="row[hour_status]-{$key}"><input id="row[hour_status]-{$key}" name="row[hour_status]" type="radio" value="{$key}" {in name="key" value="$row.hour_status"}checked{/in} /> {$vo}</label>
+
+                {/foreach}-->
+                <input id="c-hour_status" data-rule="required" data-source="common/getWebConfig?name=hour_status" class="form-control selectpage" name="row[hour_status]" type="text" value="{$row.hour_status}"  data-pagination="true" data-page-size="10" data-multiple="false" >
+            </div>
+
+        </div>
+    </div>
+
+<!--    <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('User_id')}:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-user_id" data-rule="required" data-source="user/index" data-field="nickname" class="form-control selectpage" name="row[user_id]" type="text" value="{$row.user_id}">
@@ -89,7 +105,7 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
     <div class="form-group layer-footer">
         <label class="control-label col-xs-12 col-sm-2"></label>
         <div class="col-xs-12 col-sm-8">

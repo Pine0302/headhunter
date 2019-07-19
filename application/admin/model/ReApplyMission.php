@@ -36,7 +36,20 @@ class ReApplyMission extends Model
         return isset($list[$value]) ? $list[$value] : '';*/
     }
 
+    public function user()
+    {
+        return $this->hasOne('user','id','user_id','','left');
+    }
 
+    public function hr()
+    {
+        return $this->hasOne('user','id','hr_id','','left');
+    }
+
+    public function project()
+    {
+        return $this->hasOne('re_project','id','re_project_id','','left');
+    }
 
 
 }

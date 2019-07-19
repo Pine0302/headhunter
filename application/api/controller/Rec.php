@@ -57,7 +57,7 @@ class Rec extends Api
                     $apply_arr = $noticeQuery
                         ->join('re_resume r','a.to_user_id = r.user_id','left')
                         ->page($page,$page_size)
-                        ->field('a.*,r.name as username')
+                        ->field('a.*,r.name as username,r.user_id as user_id,r.id as resume_id')
                         ->select();
                     foreach($apply_arr as $ka=>$va){
                         if($va['type']==1){
@@ -66,7 +66,7 @@ class Rec extends Api
                                 ->where('j.id','=',$va['re_job_id'])
                                 ->join('re_company c','j.re_company_id = c.id','left')
                                 ->join('areas s','s.areano = j.city_code')
-                                ->field('j.name,j.reward,j.job_experience,s.areaname as city_name,j.is_bonus,j.job_label,j.mini_salary,j.max_salary,c.icon as company_icon,c.name as company_name')
+                                ->field('j.id as pj_id,j.name,j.reward,j.job_experience,s.areaname as city_name,j.is_bonus,j.job_label,j.mini_salary,j.max_salary,c.icon as company_icon,c.name as company_name')
                                 ->find();
                         }else{
                             $info = Db::table('re_project')
@@ -74,7 +74,7 @@ class Rec extends Api
                                 ->where('j.id','=',$va['re_project_id'])
                                 ->join('re_company c','j.re_company_id = c.id','left')
                                 ->join('areas s','s.areano = j.city_code')
-                                ->field('j.name,j.reward,s.areaname as city_name,j.job_experience,j.nature,j.is_bonus,j.project_label,j.mini_salary,j.max_salary,c.icon as company_icon,c.name as company_name')
+                                ->field('j.id as pj_id,j.name,j.reward,s.areaname as city_name,j.job_experience,j.nature,j.is_bonus,j.project_label,j.mini_salary,j.max_salary,c.icon as company_icon,c.name as company_name')
                                 ->find();
                         }
 
@@ -112,6 +112,8 @@ class Rec extends Api
                         $apply_list[] = [
                             'id'=>$va['id'],
                             'type'=>$va['type'],
+                            'resume_id'=>$va['resume_id'],
+                            'user_id'=>$va['user_id'],
                             'name'=>$va['info']['name'],
                             'username'=>$va['username'],
                             'mini_salary'=>$va['info']['mini_salary']+1,
@@ -124,6 +126,7 @@ class Rec extends Api
                             'job_experience'=>config('webset.job_experience')[$va['info']['job_experience']],
                             'nature'=>$nature,
                             'company_icon'=>$company_icon,
+                            'pj_id'=>$va['info']['pj_id'],
                         ];
                     }
                 }else{
@@ -147,7 +150,7 @@ class Rec extends Api
                     $applyQuery->removeOption('field');
                     $apply_arr = $applyQuery
                       //  ->field('a.*,j.name,j.job_label,j.mini_salary,j.max_salary,c.icon as company_icon,r.name as username,c.icon as company_icon,c.name as company_name')
-                        ->field('a.*,c.icon as company_icon,r.name as username,c.icon as company_icon,c.name as company_name')
+                        ->field('a.*,c.icon as company_icon,r.name as username,c.icon as company_icon,c.name as company_name,r.id as resume_id,r.user_id')
                         ->page($page,$page_size)->select();
                     foreach($apply_arr as $ka=>$va){
                         if($va['type']==1){
@@ -186,6 +189,8 @@ class Rec extends Api
                         $apply_list[] = [
                             'id'=>$va['id'],
                             'type'=>$va['type'],
+                            'resume_id'=>$va['resume_id'],
+                            'user_id'=>$va['user_id'],
                             'name'=>$va['info']['name'],
                             'username'=>$va['username'],
                             'mini_salary'=>$va['info']['mini_salary']+1,

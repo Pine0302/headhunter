@@ -85,6 +85,7 @@ namespace app\common\library;
          $day_begin_time = strtotime(date("Y-m-d 00:00:00"));
          switch($num){
              case 1; //应届
+                 $time_range['start'] = date("Y-m-d 00:00:00",($now-$year_time));
                  break;
              case 2; //三年以内
                  $time_range['start'] = date("Y-m-d 00:00:00",($now-3*$year_time));

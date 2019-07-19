@@ -25,19 +25,19 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'user_id', title: __('User_id')},
-                        {field: 'hr_id', title: __('Hr_id')},
-                        {field: 'agent_id', title: __('Agent_id')},
-                        {field: 're_apply_id', title: __('Re_apply_id')},
-                        {field: 're_project_id', title: __('Re_project_id')},
-                        {field: 're_company_id', title: __('Re_company_id')},
+                        {field: 'user.nickname', title: __('User_id')},
+                        {field: 'hr.nickname', title: __('Hr_id')},
+                       /* {field: 'agent_id', title: __('Agent_id')},*/
+                        /*{field: 're_apply_id', title: __('Re_apply_id')},*/
+                        {field: 'project.name', title: __('Re_project_id')},
+                        /*{field: 're_company_id', title: __('Re_company_id')},*/
                         {field: 'status', title: __('Status')},
                         {field: 'start_time', title: __('Start_time'), operate:'RANGE', addclass:'datetimerange'},
                         {field: 'end_time', title: __('End_time'), operate:'RANGE', addclass:'datetimerange'},
-                        {field: 'imgs', title: __('Imgs')},
-                        {field: 'update_at', title: __('Update_at'), operate:'RANGE', addclass:'datetimerange'},
+                        /*{field: 'imgs', title: __('Imgs')},*/
+                        /*{field: 'update_at', title: __('Update_at'), operate:'RANGE', addclass:'datetimerange'},*/
                         {field: 'create_at', title: __('Create_at'), operate:'RANGE', addclass:'datetimerange'},
-                        {field: 'admin_id', title: __('Admin_id')},
+                        /*{field: 'admin_id', title: __('Admin_id')},*/
                         {field: 'hour_status', title: __('Hour_status'), visible:false, searchList: {"1":__('Hour_status 1')}},
                         {field: 'hour_status_text', title: __('Hour_status'), operate:false},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
