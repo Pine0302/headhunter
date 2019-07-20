@@ -228,22 +228,15 @@ class Notice extends Api
 
     //消息通知列表
     public function noticeRead(){
-        $data = $this->request->request();
+        $data = $this->request->post();
         $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
         $id = isset($data['id']) ? $data['id'] : '';
 
         if(!empty($sess_key)){
             try{
-                $arr = [  'openid', 'session_key' ];
-                $sess_info = $this->redis->hmget($sess_key,$arr);
-                $openid_re = $sess_info['openid'];
-                $user_info = Db::table('user')
-                    ->where('openid_re',$openid_re)
-                    ->field('id,username,mobile,gender,birthday,available_balance,avatar')
-                    ->find();
-
+                $user_info = $this->getGUserInfo($sess_key);
                     $notice_change = Db::table('re_notice')
-                        ->where('user_id',$user_info['id'])
+                        ->where('to_user_id',$user_info['id'])
                         ->where('id',$id)
                         ->update(['is_read'=>1]);
                 $this->success('success');
