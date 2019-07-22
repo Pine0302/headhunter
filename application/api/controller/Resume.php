@@ -110,7 +110,9 @@ class Resume extends Api
         $re_job_id = isset($data['re_job_id']) ? $data['re_job_id'] : '';
         $job_name = isset($data['job_name']) ? $data['job_name'] : '';
         $city_code = isset($data['city_code']) ? $data['city_code'] : '';
+        $district_code = isset($data['district_code']) ? $data['district_code'] : '';
         $city_name = isset($data['city_name']) ? $data['city_name'] : '';
+        $district_name = isset($data['district_name']) ? $data['district_name'] : '';
         $label1 = isset($data['label1']) ? $data['label1'] : '';
         $label2 = isset($data['label2']) ? $data['label2'] : '';
         $label3 = isset($data['label3']) ? $data['label3'] : '';
@@ -138,8 +140,11 @@ class Resume extends Api
             }
             if(!empty($city_code)) $arr_resume['city_code'] = $city_code;
             if(!empty($city_name)) $arr_resume['city_name'] = $city_name;
+            if(!empty($district_code)) $arr_resume['district_code'] = $district_code;
+            if(!empty($district_name)) $arr_resume['district_name'] = $district_name;
             $arr_resume['update_at'] = date("Y-m-d H:i:s");
             $user_info = $this->getGUserInfo($sess_key);
+
             $resumeQuery = Db::table('re_resume');
             $check_resume = $resumeQuery->where('user_id','=',$user_info['id'])->field('id')->find();
             $resumeQuery -> removeOption('field');
@@ -369,6 +374,7 @@ class Resume extends Api
                 if($education)          $resumeQuery->where('j.education','=',$education);
                 if($city_code)      $resumeQuery->where('j.city_code','=',$city_code);
                 if($district_code)      $resumeQuery->where('j.district_code','=',$district_code);
+
                 if($nature)      $resumeQuery->where('j.nature','=',$nature);
                 // if($nature)      $resumeQuery->where('j.nature','=',$nature);
                 if($create_time_num)     {

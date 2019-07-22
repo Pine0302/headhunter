@@ -25,12 +25,25 @@ use app\common\library\wx\WXBizDataCrypt;
 class User extends Api
 {
 
-    protected $noNeedLogin = ['getUserStep','getMemberInfo','identifyUser','getUserLocation','changePass','identify','collects','collect','blList','login', 'mobilelogin', 'register', 'resetpwd', 'changeemail', 'changeMobile', 'third','userInfo','updateUserInfo','complain','shareQrPic','teamUserList','teamPrizeList','withdraw','withdrawList','checkUserResume','pic2UserInfo','bindPic2UserInfo','getAccessToken','getPic','test1111','resumeFill','webInfo','testuser','workDetailSharePic','getUserFormId','trainDetailSharePic'];
+    protected $noNeedLogin = ['unsetUsers','getUserStep','getMemberInfo','identifyUser','getUserLocation','changePass','identify','collects','collect','blList','login', 'mobilelogin', 'register', 'resetpwd', 'changeemail', 'changeMobile', 'third','userInfo','updateUserInfo','complain','shareQrPic','teamUserList','teamPrizeList','withdraw','withdrawList','checkUserResume','pic2UserInfo','bindPic2UserInfo','getAccessToken','getPic','test1111','resumeFill','webInfo','testuser','workDetailSharePic','getUserFormId','trainDetailSharePic'];
     protected $noNeedRight = '*';
 
     public function _initialize()
     {
         parent::_initialize();
+    }
+
+    //测试用.删除个人数据
+    public function unsetUsers(){
+        $data = $this->request->request();
+        $mobile = $data['mobile'];
+        $user_info = Db::table('user')->where('mobile','=',$mobile)->find();
+        $this->redis->rm($user_info['sess_key']);
+        $this->redis->rm($user_info['openid']);
+        Db::table('user')->where('mobile','=',$mobile)->delete();
+        Db::table('re_company_apply')->where('user_id','=',$user_info['id'])->delete();
+        Db::table('admin')->where('username','=',$mobile)->delete();
+        echo "success!";
     }
 
     //获取今日步数
@@ -57,9 +70,6 @@ class User extends Api
 
         ];
         $this->success('success',$data);
-
-
-
     }
 
 
@@ -82,9 +92,9 @@ class User extends Api
         ];
         $this->success('success',$data);
 
-
-
     }
+
+
 
     public function updateUserInfo(){
         $data = $this->request->post();

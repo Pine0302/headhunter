@@ -13,7 +13,7 @@ return [
     'direct_city_code'=>8,
     'direct_city_list'=>[
         [
-            'city_code'=>111000,
+            'city_code'=>110000,
             'city_name'=>'北京市',
         ],
         [
@@ -32,7 +32,7 @@ return [
     ],
     'hot_city_list'=>[
         [
-            'city_code'=>111000,
+            'city_code'=>110000,
             'city_name'=>'北京市',
         ],
         [
