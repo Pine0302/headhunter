@@ -35,6 +35,7 @@ class Apply extends Api
     //申请工作 todo 分享此工作的经纪人身份key  agent_sess_key
     public function apply(){
         $data = $this->request->post();
+
         $sess_key = $data['sess_key'] ?? '';
         $agent_sess_key = $data['agent_sess_key'] ?? '';
         $re_job_id = $data['re_job_id'] ?? '';
@@ -42,7 +43,7 @@ class Apply extends Api
         $type = $data['type'] ?? 1;
         if(!empty($sess_key)){
             try {
-                $user_info = $this->getGUserInfo($sess_key);
+                $user_info = $this->getTUserInfo($sess_key);
                 $uid = $user_info['id'];
                 /*$user_team =  Db::table('user_team')
                     ->where('low_user_id',$user_info['id'])
@@ -70,7 +71,7 @@ class Apply extends Api
                     //'rec_user_id'=>$rec_user_id,
                     'create_at' => date("Y-m-d H:i:s",time()),
                     'update_at' => date("Y-m-d H:i:s",time()),
-                    'admin_id' => 1,
+                    'admin_id' => $user_info['ad_id'],
                 ];
 
                 //通过员工档案表查询用户所在的公司和管理员id

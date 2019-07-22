@@ -113,13 +113,14 @@ class CommonFunc extends Controller
                 exit;
             }else{
                 //user 表 给hr  减少 猎币佣金
+                $agent_per_config = config('webset.agent_per');
                // var_dump($apply_info['agent_id']);exit;
                 $userQuery = Db::table('user');
                 $result_user_query = $userQuery->where('id','=',$apply_info['hr_id'])->setDec('hr_coin',$apply_info['bonus']);
                 $userQuery->removeOption('where'); $userQuery->removeOption('field');
                 //user 表 给agent 增加 猎币佣金
                 $userQuery = Db::table('user');
-                $userQuery->where('id','=',$apply_info['agent_id'])->setInc('agent_coin',$apply_info['bonus']);
+                $userQuery->where('id','=',$apply_info['agent_id'])->setInc('agent_coin',$apply_info['bonus']* $agent_per_config);
                 $userQuery->removeOption('where'); $userQuery->removeOption('field');
 
                 $interviewQuery = Db::table('re_interview');
@@ -142,12 +143,12 @@ class CommonFunc extends Controller
                 $coin_add_log = [
                     'user_id'=>$agent_info['id'],
                     'user_type'=>3,
-                    'num'=>$apply_info['bonus'],
+                    'num'=>$apply_info['bonus'] * $agent_per_config ,
                     'way'=>1,
                     'method'=>5,
                     're_apply_id'=>$apply_id,
                     'status'=>1,
-                    'left_coin'=>$apply_info['bonus'],
+                    'left_coin'=>$apply_info['bonus'] * $agent_per_config,
                     'create_at'=>date("Y-m-d H:i:s"),
                     'update_at'=>date("Y-m-d H:i:s"),
                     'expire_at'=>$expire_time,

@@ -63,7 +63,7 @@ class ReApply extends Model
 
     public function recUser()
     {
-        return $this->belongsTo('user', 'rec_user_id','id','','left')->setEagerlyType(0);
+        return $this->belongsTo('user', 'agent_id','id','','left')->setEagerlyType(0);
         // return $this->belongsTo('userTeam', 'id','low_user_id','','left')->setEagerlyType(0);
     }
 

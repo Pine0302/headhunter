@@ -5,6 +5,7 @@ return [
         'type'=>1,
         'third_datename'=>'areas',
     ],
+    'agent_per'=>0.8,
 
     'hr_agent_group'=>'4',
     /*    默认公司图标     */

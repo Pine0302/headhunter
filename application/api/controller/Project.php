@@ -72,6 +72,7 @@ class Project extends Api
             }*/
             $arr_job['re_company_id'] = $company_info['id'];
             $arr_job['user_id'] = $hr_info['id'];
+            $arr_job['admin_id'] = $hr_info['ad_id'];
             $arr_job['is_bonus'] = $is_bonus;
             $arr_job['reward'] = $reward;
             if(!empty($company_info['coordinate'])) $arr_job['coordinate'] = $company_info['coordinate'];

@@ -193,6 +193,7 @@ class Crondjob extends Api
 
     //定时一分钟,给hr/agent用户生成账号
     public function createHrAgentAdmin(){
+        return 1;exit;
         $nonAdminUser = Db::table("user")->where('ad_id',null)->select();
         foreach($nonAdminUser as $ka=>$va){
           //  if(!empty($va['password'])){

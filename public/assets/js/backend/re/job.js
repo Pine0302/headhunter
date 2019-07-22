@@ -46,95 +46,95 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                       /*  {field: 'hits', title: __('Hits')},*/
                      /*   {field: 'coordinate', title:"经纬度"},*/
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: function (value, row, index) {
-                            var table = this.table;
-                            // 操作配置
-                            var options = table ? table.bootstrapTable('getOptions') : {};
-                            // 默认按钮组
-                            var buttons = $.extend([], this.buttons || []);
-                            if (options.extend.edit_url !== '') {
-                                buttons.push({
-                                    name: 'edit',
-                                    icon: 'fa fa-exchange',
-                                    title: '编辑状态',
-                                    extend: 'data-toggle="tooltip"',
-                                    classname: 'btn btn-xs btn-primary btn-editone',
-                                    // url: options.extend.detail_url
-                                });
-                            }
+                        var table = this.table;
+                        // 操作配置
+                        var options = table ? table.bootstrapTable('getOptions') : {};
+                        // 默认按钮组
+                        var buttons = $.extend([], this.buttons || []);
+                        if (options.extend.edit_url !== '') {
+                            buttons.push({
+                                name: 'edit',
+                                icon: 'fa fa-exchange',
+                                title: '编辑状态',
+                                extend: 'data-toggle="tooltip"',
+                                classname: 'btn btn-xs btn-primary btn-editone',
+                                // url: options.extend.detail_url
+                            });
+                        }
 
-                            /*if (options.extend.detail_url !== '') {
-                                buttons.push({
-                                    name: 'detail',
-                                    icon: 'fa fa-list',
-                                    title: '详情',
-                                    extend: 'data-toggle="tooltip"',
-                                    classname: 'btn btn-xs btn-primary btn-detailone',
-                                    // url: options.extend.detail_url
-                                });
-                            }*/
+                        /*if (options.extend.detail_url !== '') {
+                         buttons.push({
+                         name: 'detail',
+                         icon: 'fa fa-list',
+                         title: '详情',
+                         extend: 'data-toggle="tooltip"',
+                         classname: 'btn btn-xs btn-primary btn-detailone',
+                         // url: options.extend.detail_url
+                         });
+                         }*/
 
-                            if (options.extend.del_url !== '') {
-                                buttons.push({
-                                    name: 'del',
-                                    icon: 'fa fa-trash',
-                                    title: __('Del'),
-                                    extend: 'data-toggle="tooltip"',
-                                    classname: 'btn btn-xs btn-danger btn-delone'
-                                });
-                            }
-                            if(row.is_admin==1){
-                                if(row.is_hot=="未推荐"){
-                                    if (options.extend.pass_url !== '') {
-                                        buttons.push({
-                                            name: 'pass',
-                                            icon: 'fa fa-check',
-                                            title:'设为推荐',
-                                            extend: 'data-toggle="tooltip"',
-                                            classname: 'btn btn-xs btn-primary btn-passone',
-                                         //   url: options.extend.detail_url
-                                        });
-                                    }
-                                }
-                                if(row.is_hot=="推荐"){
-                                    if (options.extend.deny_url !== '') {
-                                        buttons.push({
-                                            name: 'deny',
-                                            icon: 'fa fa-times',
-                                            title:'取消推荐',
-                                            extend: 'data-toggle="tooltip"',
-                                            classname: 'btn btn-xs btn-primary btn-denyone',
-                                        });
-                                    }
+                        if (options.extend.del_url !== '') {
+                            buttons.push({
+                                name: 'del',
+                                icon: 'fa fa-trash',
+                                title: __('Del'),
+                                extend: 'data-toggle="tooltip"',
+                                classname: 'btn btn-xs btn-danger btn-delone'
+                            });
+                        }
+                        if(row.is_admin==1){
+                            if(row.is_hot=="未推荐"){
+                                if (options.extend.pass_url !== '') {
+                                    buttons.push({
+                                        name: 'pass',
+                                        icon: 'fa fa-check',
+                                        title:'设为推荐',
+                                        extend: 'data-toggle="tooltip"',
+                                        classname: 'btn btn-xs btn-primary btn-passone',
+                                        //   url: options.extend.detail_url
+                                    });
                                 }
                             }
-                                if(row.status==2){
-                                    if (options.extend.online_url !== '') {
-                                        buttons.push({
-                                            name: 'pass',
-                                            icon: 'fa fa-circle',
-                                            title:'设为上线',
-                                            extend: 'data-toggle="tooltip"',
-                                            classname: 'btn btn-xs btn-primary btn-onlineone',
-                                            //   url: options.extend.detail_url
-                                        });
-                                    }
+                            if(row.is_hot=="推荐"){
+                                if (options.extend.deny_url !== '') {
+                                    buttons.push({
+                                        name: 'deny',
+                                        icon: 'fa fa-times',
+                                        title:'取消推荐',
+                                        extend: 'data-toggle="tooltip"',
+                                        classname: 'btn btn-xs btn-primary btn-denyone',
+                                    });
                                 }
-                                if(row.status==1){
-                                    if (options.extend.offline_url !== '') {
-                                        buttons.push({
-                                            name: 'deny',
-                                            icon: 'fa fa-ban',
-                                            title:'设为下线',
-                                            extend: 'data-toggle="tooltip"',
-                                            classname: 'btn btn-xs btn-primary btn-offlineone',
-                                        });
-                                    }
-                                }
+                            }
+                        }
+                        if(row.status==2){
+                            if (options.extend.online_url !== '') {
+                                buttons.push({
+                                    name: 'pass',
+                                    icon: 'fa fa-circle',
+                                    title:'设为上线',
+                                    extend: 'data-toggle="tooltip"',
+                                    classname: 'btn btn-xs btn-primary btn-onlineone',
+                                    //   url: options.extend.detail_url
+                                });
+                            }
+                        }
+                        if(row.status==1){
+                            if (options.extend.offline_url !== '') {
+                                buttons.push({
+                                    name: 'deny',
+                                    icon: 'fa fa-ban',
+                                    title:'设为下线',
+                                    extend: 'data-toggle="tooltip"',
+                                    classname: 'btn btn-xs btn-primary btn-offlineone',
+                                });
+                            }
+                        }
 
 
 
-                            return Table.api.buttonlink(this, buttons, value, row, index, 'operate');
-                        }}
+                        return Table.api.buttonlink(this, buttons, value, row, index, 'operate');
+                    }}
                     ]
                 ]
             });
