@@ -3,6 +3,7 @@
 namespace app\admin\controller\re;
 
 use app\common\controller\Backend;
+use think\Session;
 
 /**
  * 
@@ -41,6 +42,11 @@ class Resume extends Backend
     public function index()
     {
         //设置过滤方法
+        $admin_session = session('admin');
+        $flag = 1;
+        if($admin_session['admin_id']!==0){
+            $flag = 0;
+        }
         $this->request->filter(['strip_tags']);
         if ($this->request->isAjax())
         {
@@ -72,6 +78,7 @@ class Resume extends Backend
                 $list[$kl]['will_text'] = $webset_config['will'][$vl['will']];
                 $list[$kl]['nature_text'] = $webset_config['nature'][$vl['nature']];
                 $list[$kl]['intime_text'] = $webset_config['intime'][$vl['intime']];
+                $list[$kl]['flag'] = $flag;
             }
             $result = array("total" => $total, "rows" => $list);
             return json($result);

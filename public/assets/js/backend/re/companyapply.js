@@ -75,7 +75,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             if (options.extend.pass_url !== '') {
                                 buttons.push({
                                     name: 'pass',
-                                    icon: 'fa fa-circle',
+                                    icon: 'fa fa-check',
                                     title:'通过',
                                     extend: 'data-toggle="tooltip"',
                                     classname: 'btn btn-xs btn-primary btn-passone',

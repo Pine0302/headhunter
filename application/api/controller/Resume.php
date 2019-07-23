@@ -617,6 +617,9 @@ class Resume extends Api
                     'self_introduction'=>$resume_detail['self_introduction'],
                     'download_status'=>$download_status,
                     'apply_status'=>$apply_status,
+                    'district_code'=>$resume_detail['district_code'],
+                    'district_name'=>$resume_detail['district_name'],
+
 
                 ];
                 $resume_info['label1'] = $resume_info['label2'] = $resume_info['label3'] = $resume_info['label4'] = '';
