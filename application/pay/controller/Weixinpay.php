@@ -214,9 +214,9 @@ EOT;
     }
 
     public function afterpay($arr){
-        error_log("after",3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
+      //  error_log("after",3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
             $order_id = $arr['out_trade_no'];
-        error_log(var_export($arr,1),3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
+       // error_log(var_export($arr,1),3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
             $order_id_arr = explode('_',$order_id);
     //    error_log(var_export($order_id_arr['0'],1),3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
             switch($order_id_arr['0']){
@@ -250,7 +250,7 @@ EOT;
         //    error_log(var_export($arr,1),3,'/data/wwwroot/mini3.pinecc.cn/public/log/test.txt');
         //error_log(var_export($order_info['status'],1),3,'/data/wwwroot/mini3.pinecc.cn/public/log/test.txt');
         //判断该用户是否已经支付
-        if($order_info['status']==1){
+        if($order_info['status']==2){
             $flag = 1;
         }else{
             //判断金额是否准确
@@ -282,13 +282,15 @@ EOT;
         /*  error_log(var_export($user_info,1),3,'/data/wwwroot/mini3.pinecc.cn/public/log/test.txt');*/
         //验证支付
       //  error_log(var_export($arr,1),3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
+      //  error_log('aaaa',3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
         $result_check_pay = $this->checkCoinOrderBeforeHandle($coin_order_info,$arr);
-      //  error_log($result_check_pay,3,'/data/wwwroot/mini3.pinecc.cn/public/log/test.txt');
+      //  error_log($result_check_pay,3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
+     //   error_log('bbbb',3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
+       // error_log($coin_order_info,3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
         if($result_check_pay===0){        //正常支付
             $now = time();
             $nowdate = date("Y-m-d H:i:s");
             $two_yewa_later = $now + 24*60*60*365*2;
-
             Db::startTrans();
             try{
                 //添加用户pay_log 记录

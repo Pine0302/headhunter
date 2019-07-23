@@ -212,17 +212,22 @@ class Company extends Api
                 $company_info = [];
                 $companyQuery = Db::table('re_company');
                 if(empty($id)){
-                    $user_info = $this->getGUserInfo($sess_key);
-                    $company_info = $companyQuery
-                        ->field('id,name,image,icon,coordinate,areas as area,address,instruction,status,financing,scale,re_line_id,city_name')
-                        ->where('user_id','=',$user_info['id'])
-                        ->find();
+                    $user_info = $this->getTUserInfo($sess_key);
+                    $id = $user_info['re_company_id'];
+                    if(!empty($id)){
+                        $company_info = $companyQuery
+                            ->field('id,name,image,icon,coordinate,areas as area,address,instruction,status,financing,scale,re_line_id,city_name')
+                            // ->where('user_id','=',$user_info['id'])
+                            ->where('id','=',$id)
+                            ->find();
+                    }
                 }else{
                     $company_info = $companyQuery
                         ->field('id,name,image,icon,coordinate,areas as area,address,instruction,status,financing,scale,re_line_id,city_name')
                         ->where('id','=',$id)
                         ->find();
                 }
+        
                 $companyQuery->removeOption();
                 if(empty($company_info)){
                     $this->error('网络繁忙,请稍后再试');
