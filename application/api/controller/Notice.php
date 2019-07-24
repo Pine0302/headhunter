@@ -71,6 +71,8 @@ class Notice extends Api
                             'id'=>$vw['id'],
                             're_job_id'=>$vw['re_job_id'],
                             're_project_id'=>$vw['re_project_id'],
+                            're_resume_id'=>$vw['re_resume_id'],
+                            're_apply_id'=>$vw['re_apply_id'],
                             'title'=>$title,
                             'content'=>$vw['content'],
                             'brief_content'=>$vw['brief_content'],

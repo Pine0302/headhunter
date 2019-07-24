@@ -135,12 +135,34 @@ class Apply extends Api
                 $check = $applyQuery->find();
 
                 if(empty($check)){
-                    $result = Db::table('re_apply')->insert($add_info);
+                    $result = Db::table('re_apply')->insertGetId($add_info);
                     if($type==1){
                      //   Db::table('re_job')->where('id','=',$re_job_id)->setInc('sign_num');
                     }else{
                         Db::table('re_project')->where('id','=',$re_project_id)->setInc('sign_num');
                     }
+
+                    // 给hr 发送一个申请信息
+                    $resume_info = Db::table('re_resume')->where('user_id','=',$user_info['id'])->find();
+                    $notice_config = config('webset.notice_type');
+                    $arr_notice = [
+                        'type'=>5,
+                        'from_user_type'=>1,
+                        'from_user_id'=>$user_info['id'],
+                        'type'=>5,
+                        'to_user_id'=> $add_info['hr_id'],
+                        'brief_content'=>'您有一个投递申请',
+                        'content'=>"您有一个投递申请",
+                        're_apply_id'=>$result,
+                        're_resume_id'=>$resume_info['id'],
+                        're_job_id'=>$add_info['re_job_id'],
+                        'create_at'=>date("Y-m-d H:i:s"),
+                        'update_at'=>date("Y-m-d H:i:s"),
+                        'is_read'=>2,
+                    ];
+                    Db::table('re_notice')->insert($arr_notice);
+
+
                     if(!empty($result)){
                         //查找驻场人员
                         /*$noticeHandleObj = new NoticeHandle();
@@ -612,10 +634,6 @@ class Apply extends Api
     }
 
 
-
-
-
-
     //邀请面试
     public function interview(){
         $data = $this->request->post();
@@ -654,7 +672,23 @@ class Apply extends Api
                 Db::table('re_apply')->where('id','=',$re_apply_id)->update(['offer'=>3]);
                 Db::table('re_apply')->removeOption();
                 $interviewQuery->removeOption();
-
+                $apply_info =   Db::table('re_apply')->where('id','=',$re_apply_id)->find();
+                $notice_config = config('webset.notice_type');
+                $arr_notice = [
+                    'type'=>4,
+                    'from_user_type'=>2,
+                    'from_user_id'=>$hr_info['id'],
+                    'type'=>4,
+                    'to_user_id'=>$apply_info['user_id'],
+                    'brief_content'=>'您有一个面试邀请',
+                    'content'=>"您有一个面试邀请",
+                    're_job_id'=>$apply_info['re_job_id'],
+                    're_apply_id'=>$apply_info['id'],
+                    'create_at'=>date("Y-m-d H:i:s"),
+                    'update_at'=>date("Y-m-d H:i:s"),
+                    'is_read'=>2,
+                ];
+                Db::table('re_notice')->insert($arr_notice);
                 $this->success('success',null);
             } catch (Exception $e) {
                 $this->error('网络繁忙,请稍后再试');
@@ -1075,6 +1109,96 @@ class Apply extends Api
                 $this->error('网络繁忙,请稍后再试');
             }
 
+        }else{
+            $this->error('缺少参数',null,2);
+        }
+    }
+
+    // 工程师,获取面试邀请数量
+    public function getUnReadInterview(){
+        $data = $this->request->post();
+        $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
+        if(!empty($sess_key)){
+            try{
+                $user_info = $this->getGUserInfo($sess_key);
+                $interview_count = Db::table('re_notice')
+                    ->where('to_user_id','=',$user_info['id'])
+                    ->where('type','=',4)
+                    ->where('is_read','=',2)
+                    ->count();
+                $response = [
+                    'interview_count' => $interview_count,
+                ];
+                $data = [
+                    'data'=>$response,
+                ];
+                $this->success('success', $data);
+            }catch(Exception $e){
+                $this->error('网络繁忙,请稍后再试');
+            }
+        }else{
+            $this->error('缺少参数',null,2);
+        }
+    }
+
+    // 工程师,读取面试邀请
+    public function readInterview(){
+        $data = $this->request->post();
+        $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
+        $re_apply_id= isset($data['re_apply_id']) ? $data['re_apply_id'] : '';
+        if(!empty($sess_key)){
+            try{
+                $user_info = $this->getGUserInfo($sess_key);
+                 Db::table('re_notice')
+                    ->where('to_user_id','=',$user_info['id'])
+                    ->where('type','=',4)
+                    ->where('re_apply_id','=',$re_apply_id)
+                    ->update(['is_read'=>1]);
+                $data = [];
+                $this->success('success', $data);
+            }catch(Exception $e){
+                $this->error('网络繁忙,请稍后再试');
+            }
+        }else{
+            $this->error('缺少参数',null,2);
+        }
+    }
+
+    //检测是否已推荐
+    public function checkRec(){
+        $data = $this->request->post();
+        $agent_key = isset($data['agent_key']) ? $data['agent_key'] : '';
+        $engineer_id = isset($data['engineer_id']) ? $data['engineer_id'] : '';
+        $type = isset($data['type']) ? $data['type'] : 1 ;
+        $id = isset($data['id']) ? $data['id'] : '';
+        if(!empty($agent_key)){
+            try{
+                $agent_info = $this->getGUserInfo($agent_key);
+                if($type=1){   //岗位
+                    $check = Db::table('re_notice')
+                        ->where('to_user_id','=',$engineer_id)
+                        ->where('from_user_id','=',$agent_info['id'])
+                        ->where('type','=',1)
+                        ->where('re_job_id','=',$id)
+                        ->find();
+                }else{
+                    $check = Db::table('re_notice')
+                        ->where('to_user_id','=',$engineer_id)
+                        ->where('from_user_id','=',$agent_info['id'])
+                        ->where('type','=',2)
+                        ->where('re_project_id','=',$id)
+                        ->find();
+                }
+                $data = [];
+                if(!empty($check)){
+                    $data['flag'] = 1 ;
+                }else{
+                    $data['flag'] = 0 ;
+                }
+                $this->success('success', $data);
+            }catch(Exception $e){
+                $this->error('网络繁忙,请稍后再试');
+            }
         }else{
             $this->error('缺少参数',null,2);
         }
