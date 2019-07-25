@@ -4,7 +4,7 @@ namespace app\admin\controller\user;
 
 use app\common\controller\Backend;
 use think\Db;
-
+use app\common\library\User as UserObj;
 /**
  * 会员管理
  *
@@ -129,6 +129,9 @@ class User extends Backend
 
     public function edit($ids = NULL){
         $row = $this->model->get($ids);
+        $userObj = new UserObj();
+        $coin_info = $userObj->getUserTypeCoin($row->id);
+        $row->coins = $coin_info['coin'];
         if (!$row)
             $this->error(__('No Results were found'));
         $adminIds = $this->getDataLimitAdminIds();
@@ -142,6 +145,7 @@ class User extends Backend
         if ($this->request->isPost())
         {
             $params = $this->request->post("row/a");
+
             if ($params)
             {
                 try
@@ -153,7 +157,16 @@ class User extends Backend
                         $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.edit' : true) : $this->modelValidate;
                         $row->validate($validate);
                     }
-                    $result = $row->allowField(true)->save($params);
+                    if($coin_info['id_type']!=4){
+                        $coin_type_name = config('webset.coin_type')[$coin_info['id_type']]['name'];
+                        $params[$coin_type_name] = $params['coins'];
+                        unset($params['nickname']);
+                        unset($params['coins']);
+                        $result = $row->allowField(true)->save($params);
+                    }else{
+                        $this->error("该用户暂无身份,无法添加金币!");exit;
+                    }
+
                     if ($result !== false)
                     {
                         $this->success();

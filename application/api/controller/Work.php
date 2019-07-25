@@ -14,6 +14,7 @@ use app\api\library\NoticeHandle;
 use app\common\controller\CommonFunc;
 use app\common\library\Dater;
 use app\common\service\JobService;
+use app\common\library\User as UserObj;
 /**
  * 工作相关接口
  */
@@ -89,8 +90,10 @@ class Work extends Api
             $company_info = $companyQuery->where('user_id','=',$hr_info['id'])->find();
             $companyQuery->removeOption();*/
             if(empty($hr_info['re_company_id'])){
-                $this->error('未认证公司',null,3);
+                $this->error('未认证公司,后台审核',null,3);
             }
+
+
             $companyQuery = Db::table('re_company');
             $company_info = $companyQuery->where('id','=',$hr_info['re_company_id'])->find();
             $companyQuery->removeOption();
@@ -149,9 +152,38 @@ class Work extends Api
                 $arr_job['operate_status'] = 1;
                 $result = $jobQuery->where('id','=',$id)->update($arr_job);
             }else{           //新增岗位
+                //查看金币是否足够发布
+                $hr_coin = intval($hr_info['hr_coin']);
+                if($hr_coin<$reward){
+                    $this->error('您的金币不足以支付佣金,请先充值!',null,3);
+                }
+
+                //扣除hr佣金和新增佣金记录
+                $userQuery = Db::table('user');
+                $result_user_query = $userQuery->where('id','=',$hr_info['id'])->setDec('hr_coin',$reward);
+                $userQuery->removeOption();
+
+
+
+
                 $arr_job['update_at'] = date("Y-m-d H:i;:s");
                 $arr_job['create_at'] = date("Y-m-d H:i;:s");
-                $result = $jobQuery->insert($arr_job);
+                $result = $jobQuery->insertGetId($arr_job);
+
+                //coin_log 表 减少hr 金币记录
+                $coinLogQuery = Db::table('re_coin_log');
+                $coin_dec_log = [
+                    'user_id'=>$hr_info['id'],
+                    'user_type'=>2,
+                    'num'=>$reward,
+                    'way'=>2,
+                    'method'=>4,
+                    're_apply_id'=>0,
+                    're_job_id'=>$result,
+                    'create_at'=>date("Y-m-d H:i:s"),
+                    'update_at'=>date("Y-m-d H:i:s"),
+                ];
+                $coinLogQuery->insert($coin_dec_log);
             }
             $jobQuery->removeOption();
             $this->success('success');

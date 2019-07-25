@@ -119,9 +119,10 @@ class Companyapply extends Backend
                     $admin_session = Session::get('admin');
 
                     Db::table('user')->where('id','=',$row->user_id)->update(['re_company_id'=>$row->re_company_id]);
+                    $company_info =   Db::table('re_company')->where('id','=',$row->re_company_id)->find();
                     $user_info = Db::table('user')->where('id','=',$row->user_id)->find();
                     $va['password'] = "123456";
-                    $params['admin_id'] = $admin_session['id'];
+                    $params['admin_id'] = $company_info['admin_id'];
                     $params['username'] = $user_info['mobile'];
                     $params['email'] = $user_info['email'];
                     $params['salt'] = Random::alnum();
@@ -165,6 +166,8 @@ class Companyapply extends Backend
         //$this->view->assign("re_jobtype_data", $re_jobtype_data1);
         return $this->view->fetch();
     }
+
+
 
 
 

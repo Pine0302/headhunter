@@ -96,6 +96,8 @@ class Apply extends Api
                         exit;
                     }
 
+
+
                 }else{
                     $projectQuery = Db::table('re_project');
                     $project_info = $projectQuery
@@ -145,21 +147,41 @@ class Apply extends Api
                     // 给hr 发送一个申请信息
                     $resume_info = Db::table('re_resume')->where('user_id','=',$user_info['id'])->find();
                     $notice_config = config('webset.notice_type');
-                    $arr_notice = [
-                        'type'=>5,
-                        'from_user_type'=>1,
-                        'from_user_id'=>$user_info['id'],
-                        'type'=>5,
-                        'to_user_id'=> $add_info['hr_id'],
-                        'brief_content'=>'您有一个投递申请',
-                        'content'=>"您有一个投递申请",
-                        're_apply_id'=>$result,
-                        're_resume_id'=>$resume_info['id'],
-                        're_job_id'=>$add_info['re_job_id'],
-                        'create_at'=>date("Y-m-d H:i:s"),
-                        'update_at'=>date("Y-m-d H:i:s"),
-                        'is_read'=>2,
-                    ];
+                    if($type == 1){
+                        $arr_notice = [
+                            'type'=>5,
+                            'from_user_type'=>1,
+                            'from_user_id'=>$user_info['id'],
+                            'type'=>5,
+                            'to_user_id'=> $add_info['hr_id'],
+                            'brief_content'=>'您有一个投递申请',
+                            'content'=>"您有一个投递申请",
+                            're_apply_id'=>$result,
+                            're_resume_id'=>$resume_info['id'],
+                            're_job_id'=>$add_info['re_job_id'],
+                            'create_at'=>date("Y-m-d H:i:s"),
+                            'update_at'=>date("Y-m-d H:i:s"),
+                            'is_read'=>2,
+                        ];
+                    }else{
+                        $arr_notice = [
+                            'type'=>5,
+                            'from_user_type'=>1,
+                            'from_user_id'=>$user_info['id'],
+                            'type'=>5,
+                            'to_user_id'=> $add_info['hr_id'],
+                            'brief_content'=>'您有一个投递申请',
+                            'content'=>"您有一个投递申请",
+                            're_apply_id'=>$result,
+                            're_resume_id'=>$resume_info['id'],
+                            're_project_id'=>$add_info['re_project_id'],
+                            'create_at'=>date("Y-m-d H:i:s"),
+                            'update_at'=>date("Y-m-d H:i:s"),
+                            'is_read'=>2,
+                        ];
+                    }
+
+
                     Db::table('re_notice')->insert($arr_notice);
 
 

@@ -62,7 +62,7 @@ class Project extends Api
             $hr_info = $this->getTUserInfo($sess_key); //hr 信息
 
             if(empty($hr_info['re_company_id'])){
-                $this->error('未认证公司',null,3);
+                $this->error('未认证公司,后台审核',null,3);
             }
             $companyQuery = Db::table('re_company');
             $company_info = $companyQuery->where('id','=',$hr_info['re_company_id'])->find();
@@ -115,9 +115,37 @@ class Project extends Api
                 $arr_job['operate_status'] = 1;
                 $result = $projectQuery->where('id','=',$id)->update($arr_job);
             }else{           //新增项目
+
+                //查看金币是否足够发布
+                $hr_coin = intval($hr_info['hr_coin']);
+                if($hr_coin<$reward){
+                    $this->error('您的金币不足以支付佣金,请先充值!',null,3);
+                }
+
+                //扣除hr佣金和新增佣金记录
+                $userQuery = Db::table('user');
+                $result_user_query = $userQuery->where('id','=',$hr_info['id'])->setDec('hr_coin',$reward);
+                $userQuery->removeOption();
+
+
+
                 $arr_job['update_at'] = date("Y-m-d H:i;:s");
                 $arr_job['create_at'] = date("Y-m-d H:i;:s");
-                $result = $projectQuery->insert($arr_job);
+                $result = $projectQuery->insertGetId($arr_job);
+                //coin_log 表 减少hr 金币记录
+                $coinLogQuery = Db::table('re_coin_log');
+                $coin_dec_log = [
+                    'user_id'=>$hr_info['id'],
+                    'user_type'=>2,
+                    'num'=>$reward,
+                    'way'=>2,
+                    'method'=>4,
+                    're_apply_id'=>0,
+                    're_project_id'=>$result,
+                    'create_at'=>date("Y-m-d H:i:s"),
+                    'update_at'=>date("Y-m-d H:i:s"),
+                ];
+                $coinLogQuery->insert($coin_dec_log);
             }
             $projectQuery->removeOption();
             $this->success('success');
@@ -157,6 +185,7 @@ class Project extends Api
                 $jobQuery = Db::table('re_project');
                 $jobQuery->alias('j');
                // $jobQuery->where('j.is_bonus','=',$is_bonus);
+                $jobQuery->where('j.status','=',1);
                 if($re_company_id)      $jobQuery->where('j.re_company_id','=',$re_company_id);
                 if($status)     {
                     if($status!=6){
@@ -191,12 +220,16 @@ class Project extends Api
                     $hr_info = $this->getGUserInfo($hr_key);
                     $jobQuery->where('j.user_id','=',$hr_info['id']);
                 }
+
                 $count = $jobQuery->count();
                 $jobQuery->removeOption('field');
                 $jobQuery->removeOption('order');
                 $jobQuery->join('re_company c','j.re_company_id = c.id','left');
                 $jobQuery->join('re_apply_mission ac','ac.re_project_id = j.id','left');
-                $jobQuery->field('ac.id as acid,ac.hour_status,j.id,j.name,j.sign_num,j.project_label,j.status,j.mini_salary,j.max_salary,j.job_experience,j.nature,j.instruction,j.requirement,c.city_name,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward');
+                $jobQuery->distinct(true);
+                $jobQuery->group('j.id');
+                $jobQuery->field('j.id,ac.id as acid,ac.hour_status,j.name,j.sign_num,j.project_label,j.status,j.mini_salary,j.max_salary,j.job_experience,j.nature,j.instruction,j.requirement,c.city_name,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward');
+
                 $order_str = '';
                 switch($sort){
                     case 1:    //最新发布
@@ -224,7 +257,8 @@ class Project extends Api
                     $work_arr = $jobQuery
                         ->page($page,$page_size)
                         ->select();
-
+                    $sql = $jobQuery->getLastSql();
+                 //   print_r($sql);exit;
                     $jobQuery->removeOption();
                     $page_info = [
                         'cur_page'=>$page,

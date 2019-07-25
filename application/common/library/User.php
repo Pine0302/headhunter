@@ -17,6 +17,8 @@ class User
     public function getUserTypeCoin($user_id)
     {
         $user_info = Db::table('user')->where('id','=',$user_id)->find();
+        $id_type = 4;
+        $coin = 0;
         if($user_info['is_engineer']==1){
             $id_type = 1;
             $coin = $user_info['coin'];

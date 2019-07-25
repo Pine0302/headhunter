@@ -89,7 +89,9 @@ class CommonFunc extends Controller
 
         $applyQuery->removeOption('where');
         $userQuery = Db::table('user');
+
         if(($apply_info['is_bonus']==1)&&($apply_info['bonus']>0)&&($apply_info['agent_id']>0)){     //需要支付赏金
+            print_r(111);exit;
             $userQuery = Db::table('user');
             $hr_info = $userQuery
                 ->where('id','=',$apply_info['hr_id'])
@@ -107,17 +109,12 @@ class CommonFunc extends Controller
             $coinLogQuery = Db::table('re_coin_log');
             //确认hr 猎币足够支付佣金
 
-            if(!($hr_info['hr_coin'] > $apply_info['bonus'])){
-
-                return 2; //  hr列表不够赏金平台
-                exit;
-            }else{
                 //user 表 给hr  减少 猎币佣金
                 $agent_per_config = config('webset.agent_per');
                // var_dump($apply_info['agent_id']);exit;
-                $userQuery = Db::table('user');
+                /*$userQuery = Db::table('user');
                 $result_user_query = $userQuery->where('id','=',$apply_info['hr_id'])->setDec('hr_coin',$apply_info['bonus']);
-                $userQuery->removeOption('where'); $userQuery->removeOption('field');
+                $userQuery->removeOption('where'); $userQuery->removeOption('field');*/
                 //user 表 给agent 增加 猎币佣金
                 $userQuery = Db::table('user');
                 $userQuery->where('id','=',$apply_info['agent_id'])->setInc('agent_coin',$apply_info['bonus']* $agent_per_config);
@@ -126,7 +123,7 @@ class CommonFunc extends Controller
                 $interviewQuery = Db::table('re_interview');
                // $applyQuery = Db::table('re_apply');
                 //coin_log 表 减少佣金记录
-                $coin_dec_log = [
+               /* $coin_dec_log = [
                     'user_id'=>$hr_info['id'],
                     'user_type'=>2,
                     'num'=>$apply_info['bonus'],
@@ -136,7 +133,7 @@ class CommonFunc extends Controller
                     'create_at'=>date("Y-m-d H:i:s"),
                     'update_at'=>date("Y-m-d H:i:s"),
                 ];
-                $coinLogQuery->insert($coin_dec_log);
+                $coinLogQuery->insert($coin_dec_log);*/
                 $now = time();
                 $year = 24*60*60*365;
                 $expire_time = $now + $year;
@@ -178,9 +175,15 @@ class CommonFunc extends Controller
                     $applyCommisionQuery->insert($arr_mission);
                 }
 
+            //关闭该工作/项目的其他apply,下架该项目/工作
+            $this->closeWp($apply_info);
+
+
+
                 return 1;
-            }
+
         }else{
+
             $interviewQuery = Db::table('re_interview');
             $applyQuery->where('id','=',$apply_id)->update(['offer'=>5,'update_at'=>date("Y-m-d H:i:s")]);
             $interviewQuery->where('re_apply_id','=',$apply_id)->update(['status'=>3,'update_at'=>date("Y-m-d H:i:s")]);
@@ -201,9 +204,29 @@ class CommonFunc extends Controller
                 $applyCommisionQuery = Db::table('re_apply_mission');
                 $applyCommisionQuery->insert($arr_mission);
             }
+            //关闭该工作/项目的其他apply,下架该项目/工作
+            $this->closeWp($apply_info);
             return 1;
         }
+
     }
+
+    public function closeWp($apply_info){
+        if($apply_info['type']==1){ //投递职位
+            Db::table('re_job')->where('id','=',$apply_info['re_job_id'])->update(['status'=>3]);
+            Db::table('re_apply')
+                ->where('re_job_id','=',$apply_info['re_job_id'])
+                ->where('id','neq',$apply_info['id'])
+                ->update(['offer'=>4]);
+        }else{
+            Db::table('re_project')->where('id','=',$apply_info['re_project_id'])->update(['status'=>3]);
+            Db::table('re_apply')
+                ->where('re_project_id','=',$apply_info['re_project_id'])
+                ->where('id','neq',$apply_info['id'])
+                ->update(['offer'=>4]);
+        }
+    }
+
 
 
 

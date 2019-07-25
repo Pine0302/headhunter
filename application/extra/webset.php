@@ -31,6 +31,7 @@ return [
        '1'=> '工程师',
        '2'=> 'hr',
        '3'=> '经纪人',
+        '4'=>'无身份',
     ],
     'coin_log'=>[
         '1'=>[
@@ -51,7 +52,8 @@ return [
         '4'=>[
             'method'=>4,
             'way'=>2,
-            'discription'=>'面试通过hr消耗赏金',
+          //  'discription'=>'面试通过hr消耗赏金',
+            'discription'=>'发布工作/项目 hr消耗赏金',
         ],
         '5'=>[
             'method'=>5,
