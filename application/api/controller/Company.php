@@ -213,6 +213,7 @@ class Company extends Api
                 $companyQuery = Db::table('re_company');
                 if(empty($id)){
                     $user_info = $this->getTUserInfo($sess_key);
+
                     $id = $user_info['re_company_id'];
                     if(!empty($id)){
                         $company_info = $companyQuery
@@ -230,7 +231,12 @@ class Company extends Api
         
                 $companyQuery->removeOption();
                 if(empty($company_info)){
-                    $this->error('网络繁忙,请稍后再试');
+                    $response_data = [
+                        'data'=>[
+                            'company_info'=>[],
+                        ],
+                    ];
+                    $this->success('success', $response_data);
                 }
                 $company_info['label1'] = $company_info['label2'] = $company_info['label3'] = $company_info['label4'] = '';
                 $line_info = Db::table('re_line')->where('id','=',$company_info['re_line_id'])->find();

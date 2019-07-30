@@ -615,7 +615,6 @@ class Apply extends Api
                     $education = config('webset.education')[$va['education']];
                     $work_years = $daterObj->getWorkYears(strtotime($va['work_begin_time']));
                     $is_download = empty($va['did']) ? 2 : 1;
-
                   //  $company_icon = empty($va['company_icon']) ? "https://".config('webset.server_name').config('webset.default_company_icon') : $va['company_icon'];
                     $apply_list[] = [
                         'id'=>$va['id'],

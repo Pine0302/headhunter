@@ -155,7 +155,7 @@ class Company extends Backend
         if ($this->request->isPost())
         {
             $params = $this->request->post("row/a");
-         //   var_dump($params);exit;
+
             //查看该账户是否已有公司如果有了就不能创建公司了
           //  $admin_session = Session::get('admin');
             //$admin_id = $admin_session['id'];
@@ -164,6 +164,7 @@ class Company extends Backend
                 $this->error('登录超时,请重新登录');
             }else{
                 $check_company = Db::table('re_company')->where('admin_id',$admin_id)->find();
+
                 if(!empty($check_company)){
                     $this->error('该账号下已有公司,请使用新账号创建公司!');exit;
                 }

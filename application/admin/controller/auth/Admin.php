@@ -285,4 +285,7 @@ class Admin extends Backend
         return parent::selectpage();
     }
 
+    public function getAdminList(){
+        return parent::selectAdspage();
+    }
 }
