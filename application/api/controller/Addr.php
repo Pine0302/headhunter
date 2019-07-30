@@ -169,6 +169,9 @@ class Addr extends Api
         $sess_key = $data['sess_key'] ?? '';
         $city_code = $data['city_code'];
         $district_list = [] ;
+        if($city_code=="110000"){
+            $city_code = "111000";
+        }
         $district_arr = Db::table('areas')
             ->where('parentno','=',$city_code)
             ->where('arealevel','=',3)

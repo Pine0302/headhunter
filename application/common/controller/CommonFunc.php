@@ -36,21 +36,22 @@ class CommonFunc extends Controller
         $http = new Http();
         $result_user_position = $http->get($url);
         $result_user_position_arr = json_decode($result_user_position,true);
-
-        //  $this->wlog($result_user_position_arr['result']['ad_info']);
+         // $this->wlog($result_user_position_arr['result']['ad_info']);
 
         $location_areano = substr($result_user_position_arr['result']['ad_info']['city_code'],3);
         $location_area_name = $result_user_position_arr['result']['ad_info']['city'];
         $location_district_name = $result_user_position_arr['result']['ad_info']['district'];
 
         $area_info = Db::table('areas')->where('areano','=',$location_areano)->find();
+
         //更新用户信息到数据库
         $arr = [
             'prov_name' => $result_user_position_arr['result']['ad_info']['province'],
             'city_name' => $result_user_position_arr['result']['ad_info']['city'],
             'district_name' => $result_user_position_arr['result']['ad_info']['district'],
             'district_code' => $result_user_position_arr['result']['ad_info']['adcode'],
-            'city_code' => $location_areano,
+            //'city_code' => $location_areano,
+            'city_code' => $area_info['areano'],
             'prov_code' => $area_info['parentno'],
         ];
         return $arr;
