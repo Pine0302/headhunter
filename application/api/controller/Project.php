@@ -37,6 +37,7 @@ class Project extends Api
         $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
         $id = isset($data['id']) ? $data['id'] : '';
         $city_code = isset($data['city_code']) ? $data['city_code'] : '';
+        $district_code = isset($data['district_code']) ? $data['district_code'] : '';
         $name = isset($data['name']) ? $data['name'] : '';
 
         $job_experience = isset($data['job_experience']) ? $data['job_experience'] : '';
@@ -56,8 +57,10 @@ class Project extends Api
         $reward = isset($data['reward']) ? $data['reward'] : 0;
 
         $salary_range = isset($data['salary_range']) ? $data['salary_range'] : 0;
+        $need_type = isset($data['need_type']) ? $data['need_type'] : 3;
 
         $arr_job = [];
+        $arr_job['need_type'] = $need_type;
         if(!empty($sess_key)){
             $hr_info = $this->getTUserInfo($sess_key); //hr 信息
 
@@ -76,7 +79,7 @@ class Project extends Api
             $arr_job['is_bonus'] = $is_bonus;
             $arr_job['reward'] = $reward;
             if(!empty($company_info['coordinate'])) $arr_job['coordinate'] = $company_info['coordinate'];
-            if(!empty($company_info['district_code'])) $arr_job['district_code'] = $company_info['district_code'];
+          //  if(!empty($company_info['district_code'])) $arr_job['district_code'] = $company_info['district_code'];
             if(!empty($company_info['re_line_id'])) $arr_job['re_line_id'] = $company_info['re_line_id'];
 
             $commonFuncObj = new CommonFunc();
@@ -87,6 +90,7 @@ class Project extends Api
             }
             if(!empty($city_code)) {
                 $arr_job['city_code'] = $city_code;
+                $arr_job['district_code'] = $district_code;
                 $areasQuery = Db::table('areas');
                 $area_info = $areasQuery->where('areano','=',$city_code)->find();
                 $areasQuery->removeOption();
@@ -377,6 +381,9 @@ class Project extends Api
                 if (isset($work_detail['job_experience'])){
                     $job_experience = config('webset.job_experience')[$work_detail['job_experience']];
                 }
+                if (isset($work_detail['job_experience'])){
+                    $need_type = config('webset.need_type')[$work_detail['need_type']];
+                }
 
 
 
@@ -389,6 +396,7 @@ class Project extends Api
                     'max_salary'=>$work_detail['max_salary'],
                     'instruction'=>$work_detail['instruction'],
                     'requirement'=>$work_detail['requirement'],
+                    'need_type'=>$need_type,
                     'hr_name' =>'',
                     'hr_icon' =>'',
                     'hr_day' =>'',

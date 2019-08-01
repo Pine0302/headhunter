@@ -195,7 +195,8 @@ class Company extends Backend
                     }
                     //获取上级分销商id,如果是总部,就不管了
                     $admin_info = Db::table('admin')->where('id',$admin_id)->find();
-                    if ($admin_info['admin_id']!=1){
+                    $params['re_company_id'] = 1;
+                  /*  if ($admin_info['admin_id']!=1){
                         $up_comp_info = Db::table('re_company')
                             ->where('admin_id',$admin_info['admin_id'])
                             ->order('id asc')
@@ -205,7 +206,7 @@ class Company extends Backend
                         }else{
                             $this->error('上级代理商还未创建公司');
                         }
-                    }
+                    }*/
                     $params['create_at'] = date("Y-m-d H:i:s",time());
                     $params['update_at'] = date("Y-m-d H:i:s",time());
                     $result = $this->model->allowField(true)->save($params);
