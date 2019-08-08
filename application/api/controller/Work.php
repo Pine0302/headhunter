@@ -68,6 +68,9 @@ class Work extends Api
         $education = isset($data['education']) ? $data['education'] : '';
         $mini_salary = isset($data['mini_salary']) ? $data['mini_salary'] : '';
         $max_salary = isset($data['max_salary']) ? $data['max_salary'] : '';
+
+
+
         $instruction = isset($data['instruction']) ? $data['instruction'] : '';
         $requirement = isset($data['requirement']) ? $data['requirement'] : '';
 
@@ -80,6 +83,9 @@ class Work extends Api
         $reward = isset($data['reward']) ? $data['reward'] : 0;
 
         $salary_range = isset($data['salary_range']) ? $data['salary_range'] : 0;
+
+        $salary_type = isset($data['salary_type']) ? $data['salary_type'] : 2;
+        $day_salary = isset($data['day_salary']) ? $data['day_salary'] : 0;
 
 
 
@@ -105,6 +111,10 @@ class Work extends Api
             $arr_job['admin_id'] = $hr_info['ad_id'];
             $arr_job['is_bonus'] = $is_bonus;
             $arr_job['reward'] = $reward;
+
+            $arr_job['salary_type'] = $salary_type;
+            $arr_job['day_salary'] = $day_salary;
+
             if(!empty($company_info['coordinate']))
             {
                 $arr_job['coordinate'] = $company_info['coordinate'];
@@ -406,6 +416,9 @@ class Work extends Api
                     'operate_status'=>$work_detail['operate_status'],
                     're_company_id'=>$work_detail['re_company_id'],
                     'name'=>$work_detail['name'],
+                    'mini_salary'=>$work_detail['mini_salary'],
+                    'salary_type'=>$work_detail['salary_type'],
+                    'day_salary'=>$work_detail['day_salary'],
                     'mini_salary'=>$work_detail['mini_salary'],
                     'max_salary'=>$work_detail['max_salary'],
                     'instruction'=>$work_detail['instruction'],

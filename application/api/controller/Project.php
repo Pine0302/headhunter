@@ -59,6 +59,9 @@ class Project extends Api
         $salary_range = isset($data['salary_range']) ? $data['salary_range'] : 0;
         $need_type = isset($data['need_type']) ? $data['need_type'] : 3;
 
+        $salary_type = isset($data['salary_type']) ? $data['salary_type'] : 2;
+        $day_salary = isset($data['day_salary']) ? $data['day_salary'] : 0;
+
         $arr_job = [];
         $arr_job['need_type'] = $need_type;
         if(!empty($sess_key)){
@@ -78,6 +81,11 @@ class Project extends Api
             $arr_job['admin_id'] = $hr_info['ad_id'];
             $arr_job['is_bonus'] = $is_bonus;
             $arr_job['reward'] = $reward;
+
+
+            $arr_job['salary_type'] = $salary_type;
+            $arr_job['day_salary'] = $day_salary;
+
             if(!empty($company_info['coordinate'])) $arr_job['coordinate'] = $company_info['coordinate'];
           //  if(!empty($company_info['district_code'])) $arr_job['district_code'] = $company_info['district_code'];
             if(!empty($company_info['re_line_id'])) $arr_job['re_line_id'] = $company_info['re_line_id'];
@@ -394,6 +402,8 @@ class Project extends Api
                     'name'=>$work_detail['name'],
                     'mini_salary'=>$work_detail['mini_salary'],
                     'max_salary'=>$work_detail['max_salary'],
+                    'salary_type'=>$work_detail['salary_type'],
+                    'day_salary'=>$work_detail['day_salary'],
                     'instruction'=>$work_detail['instruction'],
                     'requirement'=>$work_detail['requirement'],
                     'need_type'=>$need_type,

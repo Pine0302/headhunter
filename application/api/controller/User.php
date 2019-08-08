@@ -25,7 +25,7 @@ use app\common\library\wx\WXBizDataCrypt;
 class User extends Api
 {
 
-    protected $noNeedLogin = ['unsetUsers','getUserStep','getMemberInfo','identifyUser','getUserLocation','changePass','identify','collects','collect','blList','login', 'mobilelogin', 'register', 'resetpwd', 'changeemail', 'changeMobile', 'third','userInfo','updateUserInfo','complain','shareQrPic','teamUserList','teamPrizeList','withdraw','withdrawList','checkUserResume','pic2UserInfo','bindPic2UserInfo','getAccessToken','getPic','test1111','resumeFill','webInfo','testuser','workDetailSharePic','getUserFormId','trainDetailSharePic'];
+    protected $noNeedLogin = ['getHrServiceMobile','unsetUsers','getUserStep','getMemberInfo','identifyUser','getUserLocation','changePass','identify','collects','collect','blList','login', 'mobilelogin', 'register', 'resetpwd', 'changeemail', 'changeMobile', 'third','userInfo','updateUserInfo','complain','shareQrPic','teamUserList','teamPrizeList','withdraw','withdrawList','checkUserResume','pic2UserInfo','bindPic2UserInfo','getAccessToken','getPic','test1111','resumeFill','webInfo','testuser','workDetailSharePic','getUserFormId','trainDetailSharePic'];
     protected $noNeedRight = '*';
 
     public function _initialize()
@@ -44,6 +44,21 @@ class User extends Api
         Db::table('re_company_apply')->where('user_id','=',$user_info['id'])->delete();
         Db::table('admin')->where('username','=',$mobile)->delete();
         echo "success!";
+    }
+
+    //获取hr的公司信息
+    public function getHrServiceMobile(){
+        $data = $this->request->post();
+        $sess_key = $data['sess_key'];
+        $user_info = $this->getTUserInfo($sess_key);
+        $re_company_id = $user_info['re_company_id'];
+        $company_info = Db::table('re_company')->where('id','=',$re_company_id)->find();
+        $data = [
+            'company_info'=>$company_info
+        ];
+        $this->success('success',$data);
+
+
     }
 
     //获取今日步数

@@ -1253,7 +1253,7 @@ class Backend extends Controller
         {
             $where = [
                 $primarykey => ['in', $primaryvalue],
-                'admin_id'=>1,
+                'admin_id'=>['=',1],
             ];
         }
         else
