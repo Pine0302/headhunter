@@ -27,6 +27,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'id', title: "id"},
                        /* {field: 'user_id', title: __('User_id')},*/
                         {field: 'name', title: __('Name')},
+
                         {field: 'sex', title: __('Sex'),operate:false},
                         {field: 'birthday', title: __('Birthday'), operate:'RANGE', addclass:'datetimerange'},
                         {
@@ -120,6 +121,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'update_at', title: __('Update_at'), operate:'RANGE', addclass:'datetimerange'},*/
                         {field: 'type', title: __('Type'), visible:false, searchList: {"1":"普通简历","2":"金边简历"}},
                         {field: 'type_text', title: __('Type'), operate:false},
+                        {field: 'apply_info', title:'投递详情', cellStyle: {css: {"min-width": "200px"}}},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                     ]
                 ]

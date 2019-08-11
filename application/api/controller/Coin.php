@@ -36,9 +36,11 @@ class Coin extends Api
     //列表
     public function coinConfigList(){
         $data = $this->request->post();
+        $is_agent = $data['is_agent'] ?? 1;
         $coinConfigQuery = Db::table('re_coin_config');
         $line_arr = $coinConfigQuery
             ->where('status',1)
+            ->where('is_agent','=',1)
             ->order('sort desc')
             ->select();
         $coinConfigQuery->removeOption();

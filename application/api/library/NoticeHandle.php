@@ -19,16 +19,20 @@ class NoticeHandle
     }
 
     //生成notice通知
-    public function createNotice($type,$user_id,$content,$is_read){
+    public function createNotice($type,$from_user_id,$from_user_type,$to_user_id,$content,$is_read,$brief_content=''){
         $arr_insert = [
             'type'=>$type,
-            'user_id'=>$user_id,
+            'to_user_id'=>$to_user_id,
+            'from_user_id'=>$from_user_id,
+            'from_user_type'=>$from_user_type,
             'content'=>$content,
+            'brief_content'=>$brief_content,
             'is_read'=>$is_read,
             'create_at'=>date("Y-m-d H:i:s",time()),
             'update_at'=>date("Y-m-d H:i:s",time()),
         ];
         $result = Db::table('re_notice')->insertGetId($arr_insert);
+        Db::table('re_notice')->removeOption();
         return $result;
     }
 

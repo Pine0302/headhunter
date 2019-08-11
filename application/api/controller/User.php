@@ -18,6 +18,8 @@ use fast\Ocr;
 use app\common\library\Dater;
 use app\common\controller\CommonFunc;
 use app\common\library\wx\WXBizDataCrypt;
+use app\api\library\NoticeHandle;
+use app\common\library\User as Userlibrary;
 
 /**
  * 会员接口
@@ -259,8 +261,12 @@ class User extends Api
         $re_resume_id = $data['re_resume_id'] ?? '';
         if ((!empty($sess_key)) &&(!empty($user_id)) ) {
             $from_user_info = $this->getGUserInfo($sess_key);
+            $noticeObj = new NoticeHandle();
 
             //关注用户
+            $userLibraryObj = new Userlibrary();
+            $from_user_type = $userLibraryObj->getUserTypeCoin($from_user_info['id']);
+            $noticeObj->createNotice(6,$from_user_info['id'],$from_user_type['id_type'],$user_id,$from_user_info['nickname']."关注了您",2,'您有一个新的关注者');
             $userCollectQuery = Db::table('re_user_collect');
             $check_user_collect = $userCollectQuery
                 ->where('from_user_id','=',$from_user_info['id'])
@@ -299,7 +305,7 @@ class User extends Api
             }
             $this->success('success');
         }else{
-            $this->error('缺少必要的参数',null,2);
+            $this->error('该用户未完善信息，关注失败',null,2);
         }
 
     }

@@ -3,6 +3,7 @@
 namespace app\admin\controller\re;
 
 use app\common\controller\Backend;
+use think\Db;
 use think\Session;
 
 /**
@@ -70,7 +71,25 @@ class Resume extends Backend
             $this->model->removeOption();
             $list = collection($list)->toArray();
             $webset_config = config('webset');
+
             foreach($list as $kl=>$vl){
+                $apply_query = Db::table('re_apply');
+                $apply_list = $apply_query
+                    ->alias('a')
+                    ->join('re_company c','c.id = a.re_company_id')
+                    ->join('re_job j','j.id = a.re_job_id')
+                    ->field('j.name as job_name,c.name as company_name')
+                    ->where('a.re_resume_id','=',$vl['id'])
+                    ->select();
+                $apply_query -> removeOption();
+                $list[$kl]['apply_info'] = '';
+                if(!empty($apply_list)){
+                    foreach($apply_list as $ka=>$va){
+                        $list[$kl]['apply_info'].= $va['company_name']."-".$va['job_name'].";";
+                    }
+                    $list[$kl]['apply_info'] = rtrim($list[$kl]['apply_info'],";");
+                }
+                //print_r($apply_list);
                 $list[$kl]['identity_text'] = ($vl['identity']==1) ? "职场" : "应届生";
                 $list[$kl]['type_text'] = ($vl['type']==1) ? "普通简历" : "金边简历";
 
