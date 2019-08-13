@@ -311,7 +311,7 @@ class Apply extends Api
                             $this->error('网络繁忙,请稍后再试');
                         }
                     }else{
-                        $this->success('您的猎币数量不足');
+                        $this->error('您的猎币数量不足');
                     }
 
             }catch(Exception $e){
