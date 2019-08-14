@@ -269,26 +269,30 @@ class Work extends Api
                 $jobQuery->join('re_company c','j.re_company_id = c.id','left');
                 $jobQuery->join('re_line l','l.id = c.re_line_id','left');
                 $jobQuery->join('areas s','s.areano = j.city_code','left');
-                $jobQuery->field('j.id,j.name,j.job_label,j.mini_salary,j.status,s.areaname as city_name,j.max_salary,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward,l.name as lname,j.city_code,j.job_experience,j.education');
+                $jobQuery->field('j.id,j.name,j.job_label,j.mini_salary,j.salary_type,j.day_salary,j.status,s.areaname as city_name,j.max_salary,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward,l.name as lname,j.city_code,j.job_experience,j.education');
                 $order_str = '';
                 switch($sort){
                     case 1:    //最新发布
-                        $order_str = " j.create_at desc,j.id desc ";
+                        $order_str = ['j.create_at'=> 'desc','j.id'=> 'desc' ];
                         break;
                     case 2:     //热门工作
-                        $order_str = " j.is_hot asc,j.id desc ";
+                        $order_str = ['j.is_hot'=> 'asc','j.id'=> 'desc'] ;
                         break;
                     case 3:     //薪资最高
-                        $order_str = " j.max_salary desc,j.mini_salary desc,j.id desc ";
+                        $order_str = ['j.max_salary'=> 'desc','j.mini_salary'=> 'desc','j.id'=>'desc' ];
                         break;
                     case 4:     //离我最近
                         $jobQuery->field("(st_distance (point (j.lng, j.lat),point(".$user_info['lng'].",".$user_info['lat'].") ) / 0.0111) AS distance");
-                        $order_str = " distance asc,j.id desc ";
+                        $order_str =  ['distance'=>'asc' ,'j.id'=> 'desc' ];
                         break;
                     case 5:     //智能排序
-                        $order_str = " j.update_at desc";
+                        $order_str = ['j.update_at'=>'desc']  ;
+                        break;
+                    default:
+                        $order_str =  ['j.id'=> 'desc'];
                         break;
                 }
+               // print_r($order_str);exit;
                 $jobQuery->order($order_str);
                 $work_list = [];
                 if($count>0){
@@ -324,6 +328,8 @@ class Work extends Api
                             'id'=>$vw['id'],
                             'name'=>$vw['name'],
                             'mini_salary'=>$vw['mini_salary'],
+                            'day_salary'=>$vw['day_salary'],
+                            'salary_type'=>$vw['salary_type'],
                             'max_salary'=>$vw['max_salary'],
                             'company_name'=>$vw['company_name'],
                             'is_bonus'=>$vw['is_bonus'],

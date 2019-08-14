@@ -55,6 +55,9 @@ class User extends Api
         $user_info = $this->getTUserInfo($sess_key);
         $re_company_id = $user_info['re_company_id'];
         $company_info = Db::table('re_company')->where('id','=',$re_company_id)->find();
+        if(empty($company_info['service_mobile'])){
+            $company_info['service_mobile'] = config('webset.default_service_mobile');
+        }
         $data = [
             'company_info'=>$company_info
         ];

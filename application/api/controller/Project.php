@@ -240,25 +240,25 @@ class Project extends Api
                 $jobQuery->join('re_apply_mission ac','ac.re_project_id = j.id','left');
                 $jobQuery->distinct(true);
                 $jobQuery->group('j.id');
-                $jobQuery->field('j.id,ac.id as acid,ac.hour_status,j.name,j.sign_num,j.project_label,j.status,j.mini_salary,j.max_salary,j.job_experience,j.nature,j.instruction,j.requirement,c.city_name,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward');
+                $jobQuery->field('j.id,ac.id as acid,ac.hour_status,j.name,j.sign_num,j.salary_type,j.day_salary,j.project_label,j.status,j.mini_salary,j.max_salary,j.job_experience,j.nature,j.instruction,j.requirement,c.city_name,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward');
 
                 $order_str = '';
                 switch($sort){
                     case 1:    //最新发布
-                        $order_str = " j.create_at desc,j.id desc ";
+                        $order_str = ['j.create_at'=> 'desc','j.id'=> 'desc' ];
                         break;
                     case 2:     //热门工作
-                        $order_str = " j.is_hot asc,j.id desc ";
+                        $order_str = ['j.is_hot'=> 'asc','j.id'=> 'desc'] ;
                         break;
                     case 3:     //薪资最高
-                        $order_str = " j.max_salary desc,j.mini_salary desc,j.id desc ";
+                        $order_str = ['j.max_salary'=> 'desc','j.mini_salary'=> 'desc','j.id'=>'desc' ];
                         break;
                     case 4:     //离我最近
                         $jobQuery->field("(st_distance (point (j.lng, j.lat),point(".$user_info['lng'].",".$user_info['lat'].") ) / 0.0111) AS distance");
-                        $order_str = " distance asc,j.id desc ";
+                        $order_str =  ['distance'=>'asc' ,'j.id'=> 'desc' ];
                         break;
                     case 5:     //智能排序
-                        $order_str = "  j.update_at desc,j.id desc ";
+                        $order_str = ['j.update_at'=> 'desc','j.id'=> 'desc' ];
                         break;
                 }
 
@@ -288,6 +288,8 @@ class Project extends Api
                             'id'=>$vw['id'],
                             'name'=>$vw['name'],
                             'mini_salary'=>$vw['mini_salary'],
+                            'day_salary'=>$vw['day_salary'],
+                            'salary_type'=>$vw['salary_type'],
                             'max_salary'=>$vw['max_salary'],
                             'company_name'=>$vw['company_name'],
                             'is_bonus'=>$vw['is_bonus'],
