@@ -178,6 +178,7 @@ class Project extends Api
         $mini_salary = isset($data['mini_salary']) ? $data['mini_salary'] : '';
         $max_salary = isset($data['max_salary']) ? $data['max_salary'] : '';
         $education = isset($data['education']) ? $data['education'] : '';
+        $prov_code = isset($data['prov_code']) ? $data['prov_code'] : '';
         $city_code = isset($data['city_code']) ? $data['city_code'] : '';
         $district_code = isset($data['district_code']) ? $data['district_code'] : '';
         $nature = isset($data['nature']) ? $data['nature'] : '';
@@ -218,7 +219,17 @@ class Project extends Api
                     $jobQuery->where('j.mini_salary','<',$max_salary);
                 }
                 if(($education!=1)&&($education!=0))         $jobQuery->where('j.education','=',$education);
+                if($prov_code=='110000'){
+                    $city_code = '110000';
+                }else{
+                    if($prov_code)      $jobQuery->where('j.prov_code','=',$prov_code);
+                }
+                if($city_code=='110100'){
+                    $city_code = '110000';
+                }
                 if($city_code)      $jobQuery->where('j.city_code','=',$city_code);
+               /* if($prov_code)      $jobQuery->where('j.prov_code','=',$prov_code);
+                if($city_code)      $jobQuery->where('j.city_code','=',$city_code);*/
                 if($district_code)      $jobQuery->where('j.district_code','=',$district_code);
                 if($nature)      $jobQuery->where('j.nature','=',$nature);
                 if($create_time_num)     {
@@ -238,9 +249,12 @@ class Project extends Api
                 $jobQuery->removeOption('order');
                 $jobQuery->join('re_company c','j.re_company_id = c.id','left');
                 $jobQuery->join('re_apply_mission ac','ac.re_project_id = j.id','left');
+                $jobQuery->join('areas as','as.areano = j.city_code','left');
                 $jobQuery->distinct(true);
                 $jobQuery->group('j.id');
-                $jobQuery->field('j.id,ac.id as acid,ac.hour_status,j.name,j.sign_num,j.salary_type,j.day_salary,j.project_label,j.status,j.mini_salary,j.max_salary,j.job_experience,j.nature,j.instruction,j.requirement,c.city_name,c.name as company_name,c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward');
+                $jobQuery->field('j.id,ac.id as acid,ac.hour_status,j.name,j.sign_num,j.salary_type,j.day_salary,j.project_label,
+                j.status,j.mini_salary,j.max_salary,j.job_experience,j.nature,j.instruction,j.requirement,c.city_name,c.name as company_name,
+                c.label as company_label,c.icon as company_icon,j.is_bonus,j.reward,as.areaname as city_name');
 
                 $order_str = '';
                 switch($sort){

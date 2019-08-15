@@ -199,7 +199,8 @@ class Admin extends Backend
                     'username' => 'require|max:50|unique:admin,username,' . $row->id,
                     'email'    => 'require|email|unique:admin,email,' . $row->id
                 ]);
-                $result = $row->validate('Admin.edit')->save($params);
+//                $result = $row->validate('Admin.edit')->save($params);
+                $result = $row->save($params);
                 if ($result === false)
                 {
                     $this->error($row->getError());

@@ -19,7 +19,7 @@ class Resume extends Backend
      * @var \app\admin\model\ReResume
      */
     protected $model = null;
-
+    protected $noNeedRight = ['*'];
     public function _initialize()
     {
         parent::_initialize();
@@ -44,6 +44,13 @@ class Resume extends Backend
     {
         //设置过滤方法
         $admin_session = session('admin');
+        $mobile = config('webset.default_service_mobile');
+        if($admin_session['admin_id']!=1){
+            $company_info = Db::table('re_company')->where('admin_id','=',$admin_session['admn_id'])->find();
+            if(!empty($company_info['service_mobile'])){
+                $mobile = $company_info['service_mobile'];
+            }
+        }
         $flag = 1;
         if($admin_session['admin_id']!==0){
             $flag = 0;
@@ -98,12 +105,25 @@ class Resume extends Backend
                 $list[$kl]['nature_text'] = $webset_config['nature'][$vl['nature']];
                 $list[$kl]['intime_text'] = $webset_config['intime'][$vl['intime']];
                 $list[$kl]['flag'] = $flag;
+                $list[$kl]['service_mobile'] = $mobile;
             }
             $result = array("total" => $total, "rows" => $list);
             return json($result);
         }
         return $this->view->fetch();
     }
-    
+
+    public function test($ids){
+        //$resume_info = Db::table('re_resume')->where('id','=',$ids)->find();
+        $mobile = config('webset.default_service_mobile');
+        $admin_session = session('admin');
+        if($admin_session['admin_id']!=1){
+            $company_info = Db::table('re_company')->where('admin_id','=',$admin_session['admn_id'])->find();
+            if(!empty($company_info['service_mobile'])){
+                $mobile = $company_info['service_mobile'];
+            }
+        }
+        echo json_encode(['mobile'=>$mobile]);
+    }
 
 }
