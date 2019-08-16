@@ -111,8 +111,12 @@ class Resume extends Api
         $job_name = isset($data['job_name']) ? $data['job_name'] : '';
         $city_code = isset($data['city_code']) ? $data['city_code'] : '';
         $district_code = isset($data['district_code']) ? $data['district_code'] : '';
+        $prov_code = isset($data['prov_code']) ? $data['prov_code'] : '';
         $city_name = isset($data['city_name']) ? $data['city_name'] : '';
         $district_name = isset($data['district_name']) ? $data['district_name'] : '';
+        $prov_name = isset($data['prov_name']) ? $data['prov_name'] : '';
+
+
         $label1 = isset($data['label1']) ? $data['label1'] : '';
         $label2 = isset($data['label2']) ? $data['label2'] : '';
         $label3 = isset($data['label3']) ? $data['label3'] : '';
@@ -138,6 +142,8 @@ class Resume extends Api
                 $arr_resume['job_name'] = $job_name;
                 $arr_resume['title'] = $job_name;
             }
+            if(!empty($prov_code)) $arr_resume['prov_code'] = $prov_code;
+            if(!empty($prov_name)) $arr_resume['prov_name'] = $prov_name;
             if(!empty($city_code)) $arr_resume['city_code'] = $city_code;
             if(!empty($city_name)) $arr_resume['city_name'] = $city_name;
             if(!empty($district_code)) $arr_resume['district_code'] = $district_code;
@@ -343,6 +349,7 @@ class Resume extends Api
         $create_time_num = isset($data['create_time']) ? $data['create_time'] : 1;
         $keyword = isset($data['keyword']) ? $data['keyword'] : '';
         $district_code = isset($data['district_code']) ? $data['district_code'] : '';
+        $prov_code = isset($data['prov_code']) ? $data['prov_code'] : '';
 
         //$sort = isset($data['sort']) ? $data['sort'] : 0;
         $page = isset($data['page']) ? $data['page'] : 1;
@@ -374,6 +381,9 @@ class Resume extends Api
                 if($education)          $resumeQuery->where('j.education','=',$education);
                 if($city_code)      $resumeQuery->where('j.city_code','=',$city_code);
                 if($district_code)      $resumeQuery->where('j.district_code','=',$district_code);
+                if($prov_code)      $resumeQuery->where('j.prov_code','=',$prov_code);
+                if($prov_code)      $resumeQuery->where('j.prov_code','=',$prov_code);
+                if($prov_code)      $resumeQuery->where('j.prov_code','=',$prov_code);
 
                 if($nature)      $resumeQuery->where('j.nature','=',$nature);
                 // if($nature)      $resumeQuery->where('j.nature','=',$nature);

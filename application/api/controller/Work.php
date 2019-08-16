@@ -62,6 +62,7 @@ class Work extends Api
         $sess_key = isset($data['sess_key']) ? $data['sess_key'] : '';
         $id = isset($data['id']) ? $data['id'] : '';
         $city_code = isset($data['city_code']) ? $data['city_code'] : '';
+        $district_code = isset($data['district_code']) ? $data['district_code'] : '';
         $name = isset($data['name']) ? $data['name'] : '';
 
         $job_experience = isset($data['job_experience']) ? $data['job_experience'] : '';
@@ -141,6 +142,9 @@ class Work extends Api
             }else{
                 $arr_job['city_code'] = $company_info['city_code'];
                 $arr_job['prov_code'] = $company_info['prov_code'];
+            }
+            if(!empty($district_code)){
+                $arr_job['district_code'] = $district_code;
             }
             if(!empty($name)) $arr_job['name'] = $name;
             if(!empty($job_experience)) $arr_job['job_experience'] = $job_experience;
