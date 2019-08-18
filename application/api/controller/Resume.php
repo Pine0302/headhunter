@@ -629,6 +629,8 @@ class Resume extends Api
                     'apply_status'=>$apply_status,
                     'district_code'=>$resume_detail['district_code'],
                     'district_name'=>$resume_detail['district_name'],
+                    'prov_code'=>$resume_detail['prov_code'],
+                    'prov_name'=>$resume_detail['prov_name'],
 
 
                 ];
