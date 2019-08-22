@@ -45,8 +45,8 @@ class Resume extends Backend
         //设置过滤方法
         $admin_session = session('admin');
         $mobile = config('webset.default_service_mobile');
-        if($admin_session['admin_id']!=1){
-            $company_info = Db::table('re_company')->where('admin_id','=',$admin_session['admn_id'])->find();
+        if($admin_session['id']!=1){
+            $company_info = Db::table('re_company')->where('admin_id','=',$admin_session['id'])->find();
             if(!empty($company_info['service_mobile'])){
                 $mobile = $company_info['service_mobile'];
             }

@@ -92,7 +92,7 @@ class CommonFunc extends Controller
         $userQuery = Db::table('user');
 
         if(($apply_info['is_bonus']==1)&&($apply_info['bonus']>0)&&($apply_info['agent_id']>0)){     //需要支付赏金
-            print_r(111);exit;
+
             $userQuery = Db::table('user');
             $hr_info = $userQuery
                 ->where('id','=',$apply_info['hr_id'])
