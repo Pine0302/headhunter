@@ -757,6 +757,7 @@ class Apply extends Api
                         $interviewQuery->where('re_apply_id','=',$re_apply_id)->update(['status'=>3,'update_at'=>$now]);*/
 
                         $result = $commonFuncObj -> recruitSuccess($re_apply_id);
+                        $this->sendPassApply($re_apply_id);
                         break;
                 }
                 if($result==1){
@@ -1243,6 +1244,25 @@ class Apply extends Api
             $user_info = Db::table('user')->where('id','=',$apply_info['user_id'])->find();
             Db::table('user')->removeOption();
             $noticeObj->createNotice(8,$apply_info['hr_id'],2,$apply_info['agent_id'],"您推荐".$user_info['nickname']."的".$job_info['name']."岗位未通过录用。",2,'推荐者未通过录用');
+        }
+
+    }
+
+    public function sendPassApply($apply_id)
+    {
+        $applyQuery = Db::table('re_apply');
+        $apply_info = $applyQuery->where('id','=',$apply_id)->find();
+        $applyQuery->removeOption();
+        $job_info = Db::table('re_job')->where('id','=',$apply_info['re_job_id'])->find();
+        Db::table('re_job')->removeOption();
+        $noticeObj = new NoticeHandle();
+        //给求职者发未录用信息
+        $noticeObj->createNotice(9,$apply_info['hr_id'],2,$apply_info['user_id'],"您申请的".$job_info['name']."岗位通过录用。",2,'岗位申请通过录用');
+        //给推荐者发未录用信息
+        if(!empty($apply_info['agent_id'])){
+            $user_info = Db::table('user')->where('id','=',$apply_info['user_id'])->find();
+            Db::table('user')->removeOption();
+            $noticeObj->createNotice(10,$apply_info['hr_id'],2,$apply_info['agent_id'],"您推荐".$user_info['nickname']."的".$job_info['name']."岗位通过录用。",2,'推荐者通过录用');
         }
 
     }

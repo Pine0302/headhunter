@@ -74,12 +74,13 @@ class Coinlog extends Backend
                 $list[$kl]['ch_type'] = $log_type[$vl['type']]['discription'];*/
             }
             //总流入
-            $in = Db::table('re_coin_log')->where('way','=',1)->sum('num');
-            $out = Db::table('re_coin_log')->where('way','=',2)->sum('num');
-            $sum = $in-$out;
+            //$in = Db::table('re_coin_log')->where('way','=',1)->sum('num');
+            $in = Db::table('pay_log')->where('type','in',[1,2])->sum('total_fee');
+            $out = 0;
+            $sum = $in/100-$out/100;
             $extend = [
-                'in'=>$in,
-                'out'=>$out,
+                'in'=>$in/100,
+                'out'=>$out/100,
                 'sum'=>$sum,
             ];
             $result = array("total" => $total, "rows" => $list,"extend"=>$extend);
