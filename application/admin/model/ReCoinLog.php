@@ -70,6 +70,10 @@ class ReCoinLog extends Model
         return $this->belongsTo('user', 'user_id','id','','left')->setEagerlyType(0);
     }
 
+    public function company()
+    {
+        return $this->belongsTo('re_company', 're_company_id','id','','left')->setEagerlyType(0);
+    }
 
 
 

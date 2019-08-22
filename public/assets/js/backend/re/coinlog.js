@@ -15,6 +15,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             });
 
             var table = $("#table");
+            table.on('load-success.bs.table', function (e, data) {
+                //这里可以获取从服务端获取的JSON数据
+                console.log(data);
+                //这里我们手动设置底部的值
+                $("#in").text(data.extend.in);
+                $("#out").text(data.extend.out);
+                $("#sum").text(data.extend.sum);
+            });
 
             // 初始化表格
             table.bootstrapTable({
@@ -25,13 +33,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'user_id', title: __('User_id')},
-                        {field: 'user_type', title: __('User_type'),visible:false},
-                        {field: 'user_type_text', title: __('User_type'),operate:false},
-                        {field: 'num', title: __('Num')},
-                        {field: 'way', title: __('Way'), visible:false, searchList: {"1":__('Way 1')}},
+                        {field: 'user.username', title: "用户名称"},
+                        {field: 'company.name', title: "企业名称"},
+                        {field: 'user_type', title: __('User_type'),visible:false,operate:false},
+                        {field: 'user_type_text', title: __('User_type'),operate:false,operate:false},
+                        {field: 'num', title: __('Num'),operate:false},
+                        {field: 'way', title: __('Way'), visible:false,searchList: {"1":'增加coin',"2":"消耗coin" }},
                         {field: 'way_text', title: __('Way'), operate:false},
-                        {field: 'method', title: __('Method'), visible:false, searchList: {"2":__('Method 2')}},
+                        {field: 'method', title: __('Method'), visible:false, operate:false},
                         {field: 'method_text', title: __('Method'), operate:false},
                      /*   {field: 're_coin_order_id', title: __('Re_coin_order_id')},
                         {field: 're_topic_id', title: __('Re_topic_id')},

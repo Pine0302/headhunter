@@ -83,6 +83,8 @@ class Weixinpay extends Api
         $coinOrderQuery = Db::table('re_coin_order');
         $orderObj = new Order();
         $code = $orderObj->createOrderCode("coin");
+        $re_company_id = 0 ;
+        if($user_info['re_company_id']) $re_company_id = $user_info['re_company_id'];
         $arr_coin_order_insert = [
             'code'=>$code,
             'user_id'=>$user_info['id'],
@@ -95,6 +97,7 @@ class Weixinpay extends Api
             'create_at'=>$nowdate,
             'update_at'=>$nowdate,
             'total'=>$total,
+            're_company_id'=>$re_company_id,
         ];
 
         $coin_order_id = $coinOrderQuery->insertGetId($arr_coin_order_insert);

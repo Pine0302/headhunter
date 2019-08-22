@@ -157,7 +157,7 @@
         htmlBtn.push('<div class="col-sm-8 col-xs-offset-4">');
         htmlBtn.push(sprintf('<button type="submit" class="btn btn-success" formnovalidate>%s</button> ', searchSubmit));
         htmlBtn.push(sprintf('<button type="reset" class="btn btn-default" >%s</button> ', searchReset));
-        htmlBtn.push(sprintf('<button type="export" class="btn btn-default" >%s</button> ', searchExport));
+     //   htmlBtn.push(sprintf('<button type="export" class="btn btn-default" >%s</button> ', searchExport));
         htmlBtn.push('</div>');
         return htmlBtn;
     };

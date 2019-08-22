@@ -107,7 +107,7 @@ class Rec extends Api
                         $company_icon = empty($va['info']['company_icon']) ? "https://".config('webset.server_name').config('webset.default_company_icon') : $va['info']['company_icon'];
                         $nature = '';
                         if(isset($va['info']['nature'])){
-                            $nature = config('webset.nature')[$va['info']['nature']];
+                            $nature = $va['info']['nature'];
                         }
                         $apply_list[] = [
                             'id'=>$va['id'],

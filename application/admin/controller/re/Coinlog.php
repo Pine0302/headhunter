@@ -3,6 +3,7 @@
 namespace app\admin\controller\re;
 
 use app\common\controller\Backend;
+use think\Db;
 
 /**
  * 
@@ -47,13 +48,13 @@ class Coinlog extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $this->model->removeOption();
             $total = $this->model
-                ->with("user")
+                ->with("user,company")
                 ->where($where)
                 ->order($sort, $order)
                 ->count();
             $this->model->removeOption();
             $list = $this->model
-                ->with("user")
+                ->with("user,company")
                 ->where($where)
                 ->order($sort, $order)
                 ->limit($offset, $limit)
@@ -66,18 +67,22 @@ class Coinlog extends Backend
                 $list[$kl]['way_text'] = ($vl['way']==1) ? '流入':'流出';
                 $list[$kl]['method_text'] =  $webset['coin_log'][$vl['method']]['discription'];
                 $list[$kl]['expire_at'] =  date("Y-m-d",$vl['expire_at']);
-
                 /*   $list[$kl]['reCompany'] = $list[$kl]['re_company'];
                    $list[$kl]['reApplyCompany'] = $list[$kl]['re_apply_company'];
                    $list[$kl]['applyUser'] = $list[$kl]['apply_user'];*/
-
-
           /*
                 $list[$kl]['ch_type'] = $log_type[$vl['type']]['discription'];*/
-
-
             }
-            $result = array("total" => $total, "rows" => $list);
+            //总流入
+            $in = Db::table('re_coin_log')->where('way','=',1)->sum('num');
+            $out = Db::table('re_coin_log')->where('way','=',2)->sum('num');
+            $sum = $in-$out;
+            $extend = [
+                'in'=>$in,
+                'out'=>$out,
+                'sum'=>$sum,
+            ];
+            $result = array("total" => $total, "rows" => $list,"extend"=>$extend);
             return json($result);
         }
         return $this->view->fetch();

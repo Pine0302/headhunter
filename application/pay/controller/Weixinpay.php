@@ -320,6 +320,8 @@ EOT;
                 $userQuery->where('id','=',$user_info['id'])->setInc(config('webset.coin_type')[$coin_order_info['user_type']]['name'],$coin_order_info['coin_num']);
                // error_log(33333,3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
                 $userQuery->removeOption();
+                $re_company_id = 0;
+                if($user_info['re_company_id']) $re_company_id = $user_info['re_company_id'];
                 $coin_log_inc = [
                     'user_id'=>$user_info['id'],
                     'admin_id'=>$user_info['id'],
@@ -333,6 +335,7 @@ EOT;
                     'create_at'=>$nowdate,
                     'expire_at'=>$two_yewa_later,
                     'update_at'=>$nowdate,
+                    're_company_id'=>$re_company_id,
                 ];
                 $coinLogQuery = Db::table('re_coin_log');
             //    error_log(var_export($coin_log_inc,1),3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');

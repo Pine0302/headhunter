@@ -46,7 +46,7 @@ class Project extends Api
         $max_salary = isset($data['max_salary']) ? $data['max_salary'] : '';
         $instruction = isset($data['instruction']) ? $data['instruction'] : '';
         $requirement = isset($data['requirement']) ? $data['requirement'] : '';
-        $nature = isset($data['nature']) ? $data['nature'] : 0;
+        $nature = isset($data['nature']) ? $data['nature'] : '无';
 
         $project_label1 = isset($data['project_label1']) ? $data['project_label1'] : '';
         $project_label2 = isset($data['project_label2']) ? $data['project_label2'] : '';
@@ -326,7 +326,8 @@ class Project extends Api
                         }*/
                         $work_info['job_label1'] = $vw['city_name'];
                         $work_info['job_label2'] = !empty($vw['job_experience']) ? (config('webset.job_experience')[$vw['job_experience']]) : '应届毕业生';
-                        $work_info['job_label3'] = !empty($vw['nature']) ? (config('webset.nature')[$vw['nature']]) : '不限';
+                    //    $work_info['job_label3'] = !empty($vw['nature']) ? (config('webset.nature')[$vw['nature']]) : '不限';
+                        $work_info['job_label3'] = $vw['nature'];
 
 
 
@@ -400,7 +401,8 @@ class Project extends Api
                 $area = '';
                 $city_info = Db::table('areas')->where('areano','=',$work_detail['city_code'])->find();
                 $district_info = Db::table('areas')->where('areano','=',$work_detail['district_code'])->find();
-                $nature = config('webset.nature')[$work_detail['nature']];
+               // $nature = config('webset.nature')[$work_detail['nature']];
+                $nature = $work_detail['nature'];
                 $job_experience = '无';
                 if (isset($work_detail['job_experience'])){
                     $job_experience = config('webset.job_experience')[$work_detail['job_experience']];
@@ -581,7 +583,8 @@ class Project extends Api
                 $mission_arr = $applyMissionQuery->select();
                 if(count($mission_arr)>0){
                     foreach($mission_arr as $km=>$vm){
-                        $nature = config('webset.nature')[$vm['nature']];
+                     //   $nature = config('webset.nature')[$vm['nature']];
+                        $nature = $vm['nature'];
                         $job_experience = config('webset.job_experience')[$vm['job_experience']];
                         $project_list[$km] = [
                             'id'=>$vm['id'],

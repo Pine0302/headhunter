@@ -397,7 +397,8 @@ class Apply extends Api
                             $job_experience = "未知";
                         }
 
-                        $nature = config('webset.nature')[$va['nature']];
+                        //$nature = config('webset.nature')[$va['nature']];
+                        $nature = $va['nature'];
                         $apply_list[] = [
                             'id'=>$va['id'],
                             'type'=>$va['type'],
@@ -495,7 +496,8 @@ class Apply extends Api
                                 ->find();
                             $company_icon = empty($job_info['company_icon']) ? "https://".config('webset.server_name').config('webset.default_company_icon') : $job_info['company_icon'];
                             $job_experience = config('webset.job_experience')[$job_info['job_experience']];
-                            $nature = config('webset.nature')[$job_info['nature']];
+                            //$nature = config('webset.nature')[$job_info['nature']];
+                            $nature = $job_info['nature'];
                             $apply_list[] = [
                                 'id'=>$va['id'],
                                 'type'=>$va['type'],
