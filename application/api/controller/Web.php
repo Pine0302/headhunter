@@ -72,7 +72,7 @@ class Web extends Api
         $this->success('success', $data);
     }
 
-
+    
 
 
 

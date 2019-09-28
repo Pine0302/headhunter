@@ -9,7 +9,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => 'LTAIpkJvjR36LzKN',
+    'value' => 'LTAIKGDr8FyHrwRg',
     'rule' => 'required',
     'msg' => '',
     'tip' => '',
@@ -24,7 +24,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => 'gHRsZRRUcdrweFQSFDXhHqAEruPRQZ',
+    'value' => 'cDcgKFtKGAs1j3bKGjwdz2WGU0iXOM',
     'rule' => 'required',
     'msg' => '',
     'tip' => '',
@@ -39,7 +39,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => ' 链匠招聘程序',
+    'value' => '致远宣大科技',
     'rule' => 'required',
     'msg' => '',
     'tip' => '',
@@ -56,7 +56,7 @@ return array (
     ),
     'value' => 
     array (
-      'profile' => 'SMS_114000000',
+      'profile' => 'SMS_164375082',
     ),
     'rule' => 'required',
     'msg' => '',

@@ -23,18 +23,21 @@ use fast\Wx;
 class BbsService extends CommonService
 {
 
-    //获取文章的评论列表
-    public function getCommentList($post_id){
-        $replyQuery = Db::table('bbs_reply');
-        $collect_arr = $replyQuery
-            ->alias('r')
-            ->join('user u','r.user_id = u.id','left')
-            ->where('bbs_post_id','=',$post_id)
-            ->field('r.*,u.username,u.avatar')
+    //获取用户关注的人
+    public function getCollectUser($user_id){
+        $userCollectQuery = Db::table('re_user_collect');
+        $collect_list = [];
+        $collect_arr = $userCollectQuery
+            ->where('from_user_id',$user_id)
+            ->field('to_user_id')
             ->select();
-        $replyQuery->removeOption('where');
-
-        return $collect_arr;
+        $userCollectQuery->removeOption('where');
+        if(!empty($collect_arr)){
+            foreach ($collect_arr as $kc=>$vc){
+                $collect_list[] = $vc['to_user_id'];
+            }
+        }
+        return $collect_list;
     }
 
     //检测用户是否关注另一个用户
@@ -123,4 +126,80 @@ class BbsService extends CommonService
     }
 
 
+    public function audit_user($id,$is_pass,$reason) {
+        if (!$id || !$is_pass) {
+            $this->set_err('10001','参数缺失');
+            return $this->out_data;
+        }
+        // 处理审核
+
+
+        if ($is_pass == 1) { // 通过
+            $edit_data = [
+                'status' => UserModel::USER_STATUS_PASS,
+                'audit_time' => time()
+            ];
+        } else {
+            $edit_data = [
+                'status' => UserModel::USER_STATUS_NOT_PASS,
+                'audit_time' => time()
+            ];
+        }
+
+        $user->startTrans();
+        $err_count = 0;
+        $res = $user->save($edit_data,['id'=>$id]);
+        if (!$res) {
+            $err_count++;
+        }
+
+        if ($user_info['type'] == UserModel::USER_TYPE_PERSON) {
+            $apply_info = [
+                'type' => $user_info['type'],
+                'telphone' => $user_info['telphone'],
+                'realname' => $user_info['realname'],
+                'idcard'   => $user_info['idcard'],
+                'work_unit'   => $user_info['work_unit'],
+                'work_position'   => $user_info['work_position'],
+                'is_party'   => $user_info['is_party'],
+                'is_volunteer'   => $user_info['is_volunteer'],
+            ];
+        } else {
+            $apply_info = [
+                'type' => $user_info['type'],
+                'telphone' => $user_info['telphone'],
+                'realname' => $user_info['realname'],
+                'company_name'   => $user_info['company_name'],
+                'legal_name'   => $user_info['legal_name'],
+                'company_address'   => $user_info['company_address'],
+            ];
+        }
+        $apply_info = json_encode($apply_info,JSON_UNESCAPED_UNICODE);
+
+        // 写入日志
+        $log_data = [
+            'uid'=>$user_info['id'],
+            'is_pass'=>$is_pass,
+            'reason' =>$reason,
+            'add_time' => time(),
+            'apply_info' => $apply_info
+        ];
+
+        $user_audit_log = new UserAuditLogModel();
+        $add_res = $user_audit_log->save($log_data);
+        if (!$add_res) {
+            $err_count++;
+        }
+
+        if ($err_count > 0) {
+            $user->rollback();
+            $this->set_err(10099,'操作失败,请重试');
+            return $this->out_data;
+        } else {
+            $user->commit();
+            $this->set_err(0,'操作成功');
+            return $this->out_data;
+        }
+
+    }
 }

@@ -53,6 +53,7 @@ class User extends Api
         $data = $this->request->post();
         $sess_key = $data['sess_key'];
         $user_info = $this->getTUserInfo($sess_key);
+       
         $re_company_id = $user_info['re_company_id'];
         $company_info = Db::table('re_company')->where('id','=',$re_company_id)->find();
         if(empty($company_info['service_mobile'])){
