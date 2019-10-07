@@ -493,7 +493,8 @@ class Auth extends \fast\Auth
         $select_id = 0;
         $pinyin = new \Overtrue\Pinyin\Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
         // 必须将结果集转换为数组
-        $ruleList = collection(\app\admin\model\AuthRule::where('status', 'normal')->where('ismenu', 1)->order('weigh', 'desc')->cache("__menu__")->select())->toArray();
+        $ruleList = collection(\app\admin\model\AuthRule::where('status', 'normal')->where('ismenu', 1)->order('weigh', 'desc')->select())->toArray();
+
         foreach ($ruleList as $k => &$v) {
             if (!in_array($v['name'], $userRule)) {
                 unset($ruleList[$k]);
@@ -535,8 +536,6 @@ class Auth extends \fast\Auth
             Tree::instance()->init($ruleList);
             $menu = Tree::instance()->getTreeMenu(0, '<li class="@class"><a href="@url@addtabs" addtabs="@id" url="@url" py="@py" pinyin="@pinyin"><i class="@icon"></i> <span>@title</span> <span class="pull-right-container">@caret @badge</span></a> @childlist</li>', $select_id, '', 'ul', 'class="treeview-menu"');
         }
-
-
         return [$menu, $nav];
     }
 
