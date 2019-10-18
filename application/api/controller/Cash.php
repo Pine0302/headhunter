@@ -63,39 +63,46 @@ class Cash extends Api
         $sess_key = $data['sess_key'] ?? '';
         $cash = $data['cash'] ?? 0;
         $user_info = $this->getTUserInfo($sess_key);
-
-
-        $dir = __DIR__;
-      //  print_r($dir);exit;
-
+        $wxpay_config = config('Wxpay');
+     //   print_r($wxpay_config);exit;
 
         $config = [
-            'app_id' => 'wx2c6097f294a4aa4a',
-            'secret' => '60a2d3daa408fa14e97f5aee9b28765d',
-
+            'app_id' => $wxpay_config['APPID'],
+            'secret' => $wxpay_config['APPSECRET'],
             // 下面为可选项
             // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
             'response_type' => 'array',
-
-          /*  'log' => [
-                'level' => 'debug',
-                'file' => __DIR__.'/wechat.log',
-            ],*/
-
-            'mch_id'             => '1533572111',
-            'key'                => 'bVrD41Icg67Lk1ciU6HrXRtkkPGG17LX',   // API 密钥
-
+            'mch_id'             => $wxpay_config['MCHID'],
+            'key'             => $wxpay_config['KEY'],  // API 密钥
             // 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
-            'cert_path'          => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_cert.pem', // XXX: 绝对路径！！！！
-            'key_path'           => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_key.pem',      // XXX: 绝对路径！！！！
-
-            'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
-
+            'cert_path'          => $wxpay_config['CERT_PATH'], // XXX: 绝对路径！！！！
+            'key_path'           => $wxpay_config['KEY_PATH'],      // XXX: 绝对路径！！！！
+            'notify_url'         =>  $wxpay_config['PAY_TO_USRE_NOTIFY_URL'],     // 你也可以在下单时单独设置来想覆盖它
         ];
 
 
-
+        /*$config = [
+            'app_id' => 'wx2c6097f294a4aa4a',
+            'secret' => '60a2d3daa408fa14e97f5aee9b28765d',
+            // 下面为可选项
+            // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
+            'response_type' => 'array',
+            'mch_id'             => '1533572111',
+            'key'                => 'bVrD41Icg67Lk1ciU6HrXRtkkPGG17LX',   // API 密钥
+            // 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
+            'cert_path'          => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_cert.pem', // XXX: 绝对路径！！！！
+            'key_path'           => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_key.pem',      // XXX: 绝对路径！！！！
+            'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
+        ];*/
         $app = Factory::payment($config);
+        $result = $app->transfer->queryBalanceOrder('1233455');
+        print_r($result);exit;
+
+
+        //确认用户的余额足够
+        //提现操作
+        //减少用户余额.添加余额更新记录
+
 
         $result = $app->transfer->toBalance([
             'partner_trade_no' => '1233455', // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)

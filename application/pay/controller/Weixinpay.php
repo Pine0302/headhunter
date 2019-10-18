@@ -41,6 +41,31 @@ class Weixinpay extends Controller
     }
 
     /**
+     * 企业付款到零钱 notify_url接收页面
+     */
+    public function notifyUser()
+    {
+
+        // 获取xml
+        $xml=file_get_contents('php://input', 'r');
+        //转成php数组 禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $arr = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $arr = json_decode(json_encode($arr),true);
+        error_log("enter",3,'/www/wwwroot/headhunter.pinecc.cn/public/tt.txt');
+        error_log(var_export($arr,1),3,'/www/wwwroot/headhunter.pinecc.cn/public/tt.txt');
+        error_log(var_export($arr['result_code'],1),3,'/www/wwwroot/headhunter.pinecc.cn/public/tt.txt');
+        error_log(var_export($arr['return_code'],1),3,'/www/wwwroot/headhunter.pinecc.cn/public/tt.txt');
+        return;
+        if(($arr['result_code']=='SUCCESS')&&($arr['return_code']=='SUCCESS')){
+            //     error_log("123",3,'/data/wwwroot/headhunter.pinecc.cn/public/log/test.txt');
+            $this->afterpay($arr);
+            WeixinpayClass::notify();
+        }
+
+    }
+
+    /**
      * 公众号支付 必须以get形式传递 out_trade_no 参数
      */
     public function pay(WeixinpayClass $wxpay)

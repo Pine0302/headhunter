@@ -42,12 +42,15 @@ return [
 
 /*IT小程序
  * */
-    'APPID'              => 'wx2c6097f294a4aa4a', // 微信支付APPID
-    'MCHID'              => '1533572111', // 微信支付MCHID 商户收款账号
-    'KEY'                => 'bVrD41Icg67Lk1ciU6HrXRtkkPGG17LX', // 微信支付KEY
-    'APPSECRET'          => '60a2d3daa408fa14e97f5aee9b28765d',  //公众帐号secert
-    'NOTIFY_URL'         => 'https://headhunter.pinecc.cn/pay/Weixinpay/notify', // 接收支付状态的连接  改成自己的域名
-    'LOGIN_EXPIRE_TIME'  =>  604800,
+    'APPID'                         => 'wx2c6097f294a4aa4a', // 微信支付APPID
+    'MCHID'                         => '1533572111', // 微信支付MCHID 商户收款账号
+    'KEY'                           => 'bVrD41Icg67Lk1ciU6HrXRtkkPGG17LX', // 微信支付KEY
+    'APPSECRET'                     => '60a2d3daa408fa14e97f5aee9b28765d',  //公众帐号secert
+    'NOTIFY_URL'                    => 'https://headhunter.pinecc.cn/pay/Weixinpay/notify', // 接收支付状态的连接  改成自己的域名
+    'LOGIN_EXPIRE_TIME'             =>  604800,
+    'CERT_PATH'                      => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_cert.pem',
+    'KEY_PATH'                       => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_key.pem',
+    'PAY_TO_USRE_NOTIFY_URL'         => 'https://headhunter.pinecc.cn/pay/Weixinpay/notifyUser', // 接收支付状态的连接  改成自己的域名
 
 
 
