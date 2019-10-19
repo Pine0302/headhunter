@@ -10,6 +10,7 @@ use think\Db;
 use think\Session;
 use think\Cache;
 use EasyWeChat\Factory;
+use app\common\library\Order;
 
 /**
  * 工作相关接口
@@ -79,44 +80,42 @@ class Cash extends Api
             'key_path'           => $wxpay_config['KEY_PATH'],      // XXX: 绝对路径！！！！
             'notify_url'         =>  $wxpay_config['PAY_TO_USRE_NOTIFY_URL'],     // 你也可以在下单时单独设置来想覆盖它
         ];
-
-
-        /*$config = [
-            'app_id' => 'wx2c6097f294a4aa4a',
-            'secret' => '60a2d3daa408fa14e97f5aee9b28765d',
-            // 下面为可选项
-            // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
-            'response_type' => 'array',
-            'mch_id'             => '1533572111',
-            'key'                => 'bVrD41Icg67Lk1ciU6HrXRtkkPGG17LX',   // API 密钥
-            // 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
-            'cert_path'          => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_cert.pem', // XXX: 绝对路径！！！！
-            'key_path'           => '/www/wwwroot/headhunter.pinecc.cn/cert_new/apiclient_key.pem',      // XXX: 绝对路径！！！！
-            'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
-        ];*/
         $app = Factory::payment($config);
-        $result = $app->transfer->queryBalanceOrder('1233455');
-        print_r($result);exit;
-
-
-        //确认用户的余额足够
+        //确认用户的身份ok,余额足够
+        if($user_info['is_agent']!=1){
+            $this->error('身份不符,无提现权限', null);exit;
+        }
+        if($cash>$user_info['agent_coin']){
+            $this->error('金币不足,无法提现', null);exit;
+        }
         //提现操作
+        $orderObj = new Order();
+        $order_code = $orderObj->createOrder2('WD');
         //减少用户余额.添加余额更新记录
-
-
         $result = $app->transfer->toBalance([
-            'partner_trade_no' => '1233455', // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
-            'openid' => 'ouWTj5CPNqZChdHQepr-ed9WaFGg',
+            'partner_trade_no' => $order_code, // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
+            'openid' => $user_info['openid'],
             'check_name' => 'NO_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
-            're_user_name' => '沈朝松', // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
-            'amount' => 30, // 企业付款金额，单位为分
-            'desc' => 'test', // 企业付款操作说明信息。必填
+            're_user_name' => '', // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
+            'amount' => $cash * 100, // 企业付款金额，单位为分
+            'desc' => '用户提现', // 企业付款操作说明信息。必填
         ]);
-        print_r($result);exit;
-
-        $response_data = [];
-        $this->success('success', $response_data);
-
+        if(($result['return_code']=="SUCCESS")&&($result['result_code']=="SUCCESS")){
+            //插入数据,更新用户余额
+            Db::table('user')->where('id', $user_info['id'])->setDec('agent_coin', $cash);
+            $arr_insert_withdraw = [
+                'user_id'=>$user_info['id'],
+                'cash'=>$cash,
+                'status'=>1,
+                'code'=>$order_code,
+                'create_at'=>date('Y-m-d H:i:s',time()),
+                'update_at'=>date('Y-m-d H:i:s',time()),
+            ];
+            Db::table('user_withdraw')->insert($arr_insert_withdraw);
+            $this->success('success');
+        }else{
+            $this->success('error', $result);
+        }
     }
 
 
