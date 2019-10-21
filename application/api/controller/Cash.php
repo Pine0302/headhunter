@@ -118,11 +118,17 @@ class Cash extends Api
         }
     }
 
-
-
-
-
-
+    //提现记录
+    public function withDrawLog(){
+        $data = $this->request->post();
+        $sess_key = $data['sess_key'] ?? '';
+        $user_info = $this->getTUserInfo($sess_key);
+        $withdraw_log = Db::table('user_withdraw')
+            ->where('user_id','=',$user_info['id'])
+            ->order('id desc')
+            ->find();
+        $this->success('success',$withdraw_log);
+    }
 
     public function cashLog(){
         $data = $this->request->post();
