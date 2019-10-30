@@ -58,20 +58,20 @@ class Withdraw extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $total = $this->model
                 ->where($where)
-                ->with('user,reResume')
+                ->with('user')
                 ->order($sort, $order)
                 ->count();
-
+            $this->model->removeOption();
             $list = $this->model
                 ->where($where)
-                ->with('user,reResume')
+                ->with('user')
                 ->order($sort, $order)
                 ->limit($offset, $limit)
                 ->select();
 
             $list = collection($list)->toArray();
             foreach ($list as $kl=>$vl){
-                $list[$kl]['status_num'] = $vl['status'];
+                /*$list[$kl]['status_num'] = $vl['status'];
                 $list[$kl]['reResume'] = $list[$kl]['re_resume'];
                 switch( $list[$kl]['status_num'])
                 {
@@ -81,7 +81,7 @@ class Withdraw extends Backend
                         $list[$kl]['status'] = '已通过';break;
                     case 2:
                         $list[$kl]['status'] = '已拒绝';break;
-                }
+                }*/
             }
             $result = array("total" => $total, "rows" => $list);
 

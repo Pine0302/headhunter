@@ -28,11 +28,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
-                        {field: 'user.username', title: '用户名'},
+                        {field: 'user.username', title: '用户名',operate:false},
                         {field: 'cash', title: '金额', operate:'BETWEEN'},
-                        {field: 'status', title: '状态'},
-                        {field: 'reResume.id_num', title:"身份证号", operate:false},
-                        {field: 'create_at', title: __('Create_at'), operate:'RANGE', addclass:'datetimerange'},
+                        /*{field: 'status', title: '状态'},*/
+                        /*{field: 'reResume.id_num', title:"身份证号", operate:false},*/
+                        {field: 'create_at', title: '提现时间', operate:'RANGE', addclass:'datetimerange'},
 /*                        {field: 'update_at', title: __('Update_at'), operate:'RANGE', addclass:'datetimerange'},*/
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: function (value, row, index) {
                             var table = this.table;

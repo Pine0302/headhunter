@@ -76,11 +76,11 @@ class Coinlog extends Backend
             //总流入
             //$in = Db::table('re_coin_log')->where('way','=',1)->sum('num');
             $in = Db::table('pay_log')->where('type','in',[1,2])->sum('total_fee');
-            $out = 0;
-            $sum = $in/100-$out/100;
+            $out = Db::table('user_withdraw')->where('status','=',1)->sum('cash');
+            $sum = $in/100-$out;
             $extend = [
                 'in'=>$in/100,
-                'out'=>$out/100,
+                'out'=>$out,
                 'sum'=>$sum,
             ];
             $result = array("total" => $total, "rows" => $list,"extend"=>$extend);
@@ -88,6 +88,8 @@ class Coinlog extends Backend
         }
         return $this->view->fetch();
     }
+
+
 
 
 
