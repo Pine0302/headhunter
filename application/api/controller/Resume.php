@@ -359,6 +359,7 @@ class Resume extends Api
         if(!empty($sess_key)){
             try{
                 $user_info = $this->getGUserInfo($sess_key);
+
                 $resumeQuery = Db::table('re_resume');
                 $resumeQuery->alias('j');
 

@@ -35,6 +35,7 @@ class CommonFunc extends Controller
 
         $http = new Http();
         $result_user_position = $http->get($url);
+        //print_r($result_user_position);exit;
         $result_user_position_arr = json_decode($result_user_position,true);
          // $this->wlog($result_user_position_arr['result']['ad_info']);
 

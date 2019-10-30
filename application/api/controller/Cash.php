@@ -114,7 +114,7 @@ class Cash extends Api
             Db::table('user_withdraw')->insert($arr_insert_withdraw);
             $this->success('success');
         }else{
-            $this->success('error', $result);
+            $this->error('error', $result);
         }
     }
 

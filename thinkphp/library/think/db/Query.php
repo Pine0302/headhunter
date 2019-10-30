@@ -447,7 +447,7 @@ class Query
             }
         } else {
             // 清空查询条件
-            $this->options = [];
+         //   $this->options = [];
         }
         return false !== $result ? $result : $default;
     }

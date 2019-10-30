@@ -107,7 +107,8 @@ class Login extends Api
                 $user_info['identity_auth'] = ['is_engineer'=>$user_arr['is_engineer'],'is_hr'=>$user_arr['is_hr'],'is_agent'=>$user_arr['is_agent']];
                 Db::table('user')->where('openid','=',$result['openid'])->update(['session_key'=>$session_key]);   //更新session_key
             }else{  //第一次登陆
-                $sess_key = $this->rd3_session(16);
+                //$sess_key = $this->rd3_session(16);
+                $sess_key = $this->create16str();
                 Db::table('user')->insert(['openid'=>$result['openid'],'sess_key'=>$sess_key,'session_key'=>$session_key]);
                 $need_auth = $need_auth;
                 $has_password = 2;
@@ -186,10 +187,9 @@ class Login extends Api
 
 
     public function  test(){
-        $arr = [
-            ''
-        ];
-        var_dump();
+        $result = $this->create16str();
+        var_dump($result);exit;
+        echo phpinfo();
      //   $redis = Cache::getHandler();
      //   echo"</pre>";
      //   print_r($redis);
@@ -221,6 +221,11 @@ class Login extends Api
     return substr($result, 0, $len);
 }
 
+    public function create16str(){
+        $str = uniqid();
+        $str_supply = rand(100,999);
+        return $str.$str_supply;
+    }
 
 
     //获取用户位置
